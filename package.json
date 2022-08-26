@@ -1,0 +1,17 @@
+{
+  "name": "ControlOfWorks",
+  "description": "Backend for Control of Works",
+  "version": "1.0.0",
+  "private": true,
+  "dependencies": {
+  },
+  "devDependencies": {
+    "serverless": "^3.7.1",
+    "serverless-offline": "^8.5.0",
+    "sequelize": "^6.21.4"
+  },
+  "scripts": {
+    "dev": "node --inspect $(npm bin)/sls offline start",
+    "docker": "node $(npm bin)/sls offline start --host 0.0.0.0"
+  }
+}
