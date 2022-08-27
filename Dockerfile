@@ -8,7 +8,8 @@ RUN apt-get update && \
     apt install curl -y && \
     curl -sL https://deb.nodesource.com/setup_14.x | bash - && \
     apt install nodejs -y && \
-    apt install maven -y
+    apt install maven -y && \
+    npm install npm@8.5.1 -g
 
 ADD ./ /app
 WORKDIR /app
