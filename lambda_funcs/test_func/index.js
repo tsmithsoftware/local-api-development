@@ -1,12 +1,12 @@
-const { getSequelizeClient } = require ('../../utils/database_connection');
+const { getSequelizeClient } = require('../../utils/database_connection');
+const client = getSequelizeClient();
+//const { response } = require('../../utils/Response');
 
-exports.handler = async () => {
+exports.handler = async (event) => {
 
-  let message = 'Session is alive';
-
-  return {
-    "statusCode": 200,
-    "message": message
-  };
-
+    const response = {
+        statusCode: 200,
+        body: JSON.stringify('Hello from Lambda!'),
+    };
+    return response;
 };

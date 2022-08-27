@@ -6,7 +6,7 @@ const { Sequelize } = require('sequelize');
 async function getSequelizeClient() {
   const sequelize = new Sequelize('db', 'user', 'password', {
     host: 'localhost',
-    dialect: mysql
+    dialect: 'mysql'
   });
 
   try {
@@ -19,3 +19,7 @@ async function getSequelizeClient() {
   return sequelize;
 
 }
+
+module.exports= {
+ getSequelizeClient
+ };

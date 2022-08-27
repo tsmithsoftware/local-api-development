@@ -4,6 +4,8 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
+    "mysql2": "^2.3.3",
+    "sls": "^0.1.0"
   },
   "devDependencies": {
     "serverless": "^3.7.1",
