@@ -1,10 +1,12 @@
 CREATE TABLE users (
-    userId int PRIMARY KEY,
+    userId serial PRIMARY KEY,
     lastName varchar(255),
-    firstName varchar(255)
+    firstName varchar(255),
+    createdAt dateTime DEFAULT now(),
+    updatedAt dateTime DEFAULT now()
 );
 
 INSERT INTO users(lastName, firstName)
 VALUES("Doe", "John"),
-VALUES("Smith", "Danny"),
-VALUES("Smith", "Harry");
+("Smith", "Danny"),
+("Smith", "Harry");

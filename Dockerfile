@@ -1,9 +1,8 @@
 FROM ubuntu:18.04
 
 ENV DEBIAN_FRONTEND=noninteractive
-ENV DYNAMODB_VERSION=latest
 
-RUN apt-get update && \
+RUN apt-get update && \ 
     apt-get upgrade -y && \
     apt-get install openjdk-11-jdk -y && \
     apt install curl -y && \
@@ -14,6 +13,7 @@ RUN apt-get update && \
 ADD ./ /app
 WORKDIR /app
 
+RUN npm version
 RUN npm install
 
 # Serverless port

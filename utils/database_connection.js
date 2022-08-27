@@ -1,13 +1,17 @@
 const { Sequelize } = require('sequelize');
+const UserModel = require('../models/user')
 
 // Option 3: Passing parameters separately (other dialects)
 // add "if" for local dev
 
-async function getSequelizeClient() {
   const sequelize = new Sequelize('db', 'user', 'password', {
     host: 'localhost',
     dialect: 'mysql'
   });
+  
+  const User = UserModel(sequelize, Sequelize)
+
+async function getSequelizeClient() {
 
   try {
     await sequelize.authenticate();
@@ -21,5 +25,6 @@ async function getSequelizeClient() {
 }
 
 module.exports= {
- getSequelizeClient
+ getSequelizeClient,
+ User
  };
