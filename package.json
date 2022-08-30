@@ -4,17 +4,17 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
-    "mysql2": "^2.3.3",
-    "sls": "^0.1.0"
+    "mysql2": "^2.3.3"
   },
   "devDependencies": {
+    "sequelize": "^6.21.4",
     "serverless": "^3.7.1",
     "serverless-offline": "^8.5.0",
-    "sequelize": "^6.21.4"
+    "serverless-webpack": "^5.6.1"
   },
   "scripts": {
     "dev": "node --inspect $(npm bin)/sls offline start",
-    "docker": "node $(npm bin)/sls offline start --host 0.0.0.0",
+    "docker": "node $(npm bin)/sls offline --help",
     "postgresDb": "sudo docker-compose up"
   }
 }

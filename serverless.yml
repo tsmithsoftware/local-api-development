@@ -9,25 +9,13 @@ provider:
     cowenv: dev
 
 functions:
-  dfe_test:
+  test_func:
     name: test_func
     handler: lambda_funcs/test_func/index.handler
     events:
       - httpApi:
           path: /test
           method: get
-
-  mysql:
-    stages:
-      - dev
-    start:
-      docker: true
-      port: 8000
-      inMemory: true
-      migrate: true
-      seed: false
-      convertEmptyValues: true
-      noStart: true
 
 package:
     individually: true

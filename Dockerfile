@@ -1,25 +1,17 @@
-FROM ubuntu:18.04
+FROM node:18.8
 
-ENV DEBIAN_FRONTEND=noninteractive
-
-RUN apt-get update && \ 
-    apt-get upgrade -y && \
-    apt-get install openjdk-11-jdk -y && \
-    apt install curl -y && \
-    curl -sL https://deb.nodesource.com/setup_14.x | bash - && \
-    apt install nodejs -y && \
-    apt install maven -y && \
-    npm install npm@8.5.1 -g
-
-ADD ./ /app
 WORKDIR /app
 
-RUN npm version
+COPY serverless.yml ./
+COPY package.json ./
+COPY package-lock.json ./
+
 RUN npm install
+RUN npm ci
 
-# Serverless port
+COPY . .
+
 EXPOSE 3000
-# NodeJS debug port
-EXPOSE 9229
+EXPOSE 3002
 
-CMD npm run docker
+CMD ["node", "./node_modules/serverless/bin/serverless.js", "offline", "start",  "--host", "0.0.0.0"]

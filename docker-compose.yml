@@ -1,12 +1,5 @@
 version: '3.3'
 services:
-  cow_api:
-    build: .
-    ports: 
-      - '9229:9229'
-    volumes:
-      - .:\app
-    # mysql -h localhost -P 3306 --protocol=tcp -u user
   db:
     image: mysql:5.7
     restart: always
@@ -14,14 +7,19 @@ services:
       MYSQL_DATABASE: 'db'
       MYSQL_USER: 'user'
       MYSQL_PASSWORD: 'password'
-      MYSQL_ROOT_PASSWORD: 'password'
+      MYSQL_ROOT_PASSWORD: 'root_password'
     ports:
       - '3306:3306'
     expose:
       - '3306'
     volumes:
-       - "./sql_scripts/init.sql:/docker-entrypoint-initdb.d/init.sql"
-# Names our volume
-volumes:
-  my-db:
-  my-api:
+      - "./sql_scripts/init.sql:/docker-entrypoint-initdb.d/init.sql"
+    
+  my_api:
+    build: .
+    ports: 
+      - '9229:9229'
+      - '3000:3000'
+    volumes:
+      - .:\app
+  
