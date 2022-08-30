@@ -1,25 +1,17 @@
-FROM ubuntu:22.04
+FROM node:18.8
 
-ENV DEBIAN_FRONTEND=noninteractive
-
-RUN export SLS_DEBUG=*
-
-# Node 18x, https://github.com/nodesource/distributions
-RUN apt-get update && \
-    apt-get upgrade -y && \
-    apt-get install openjdk-11-jdk -y && \
-    apt install curl -y && \
-    curl -sL https://deb.nodesource.com/setup_current.x | bash - && \
-    apt install nodejs -y
-
-ADD ./ /app
 WORKDIR /app
 
+COPY serverless.yml ./
+COPY package.json ./
+COPY package-lock.json ./
+
 RUN npm install
+RUN npm ci
 
-# Serverless port
+COPY . .
+
 EXPOSE 3000
-# NodeJS debug port
-EXPOSE 9229
+EXPOSE 3002
 
-CMD npm run docker
+CMD ["node", "./node_modules/serverless/bin/serverless.js", "offline", "start",  "--host", "0.0.0.0"]
