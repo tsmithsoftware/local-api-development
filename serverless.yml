@@ -9,7 +9,7 @@ provider:
     cowenv: dev
 
 functions:
-  cow_test:
+  test_func:
     name: test_func
     handler: lambda_funcs/test_func/index.handler
     events:
