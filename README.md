@@ -19,4 +19,5 @@ Integration and UI test frameworks will also be included as part of this project
 
 The UI test framework will run in a separate container. It will check out the code, build the apk, install the apk on an emulator and run the UI tests against that emulator.
 
-Kubernetes could be used for orchestration.
+Progress:
+30/08 Serverless project and Postgres containers set up and connected. Serverless uses the Sequelize library to communicate with the database.
