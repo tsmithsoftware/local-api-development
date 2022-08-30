@@ -3,7 +3,7 @@ frameworkVersion: '3'
 
 provider:
   name: aws
-  runtime: nodejs14.x
+  runtime: nodejs18.x
   stage: dev
   environment:
     cowenv: dev
@@ -16,18 +16,6 @@ functions:
       - httpApi:
           path: /test
           method: get
-
-  mysql:
-    stages:
-      - dev
-    start:
-      docker: true
-      port: 8000
-      inMemory: true
-      migrate: true
-      seed: false
-      convertEmptyValues: true
-      noStart: true
 
 package:
     individually: true

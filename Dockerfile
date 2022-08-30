@@ -1,20 +1,20 @@
-FROM ubuntu:18.04
+FROM ubuntu:22.04
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get update && \ 
+RUN export SLS_DEBUG=*
+
+# Node 18x, https://github.com/nodesource/distributions
+RUN apt-get update && \
     apt-get upgrade -y && \
     apt-get install openjdk-11-jdk -y && \
     apt install curl -y && \
-    curl -sL https://deb.nodesource.com/setup_14.x | bash - && \
-    apt install nodejs -y && \
-    apt install maven -y && \
-    npm install npm@8.5.1 -g
+    curl -sL https://deb.nodesource.com/setup_current.x | bash - && \
+    apt install nodejs -y
 
 ADD ./ /app
 WORKDIR /app
 
-RUN npm version
 RUN npm install
 
 # Serverless port
