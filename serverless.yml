@@ -16,7 +16,14 @@ functions:
       - httpApi:
           path: /getUsers
           method: get
-
+  postUser:
+    name: postUser
+    handler: lambda_funcs/postUser/index.handler
+    events:
+      - httpApi:
+          path: /postUser
+          method: post
+          
 package:
     individually: true
 
