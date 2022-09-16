@@ -18,6 +18,7 @@ async function getSequelizeClient() {
   } catch (error) {
     console.error('Unable to connect to the database:', error);
     console.log("attempting to connect via docker connection");
+	console.log("surprise!");
     try {
           sequelize = new Sequelize('db', 'user', 'password', {
     	  host: 'host.docker.internal',
