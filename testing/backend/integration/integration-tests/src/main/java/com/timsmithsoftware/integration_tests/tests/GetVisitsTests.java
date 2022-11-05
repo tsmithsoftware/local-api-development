@@ -8,6 +8,7 @@ import com.timsmithsoftware.integration_tests.models.ApiResponse;
 import com.timsmithsoftware.integration_tests.models.DatabaseChange;
 import com.timsmithsoftware.integration_tests.models.TestResult;
 
+import java.net.HttpURLConnection;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.http.HttpRequest;
@@ -16,7 +17,7 @@ import org.json.JSONObject;
 import static org.junit.Assert.*;
 
 /**
- * Unit test for GetVisits endpoint.
+ * Integration test for GetVisits end point.
  */
 public class GetVisitsTests 
 {
@@ -32,9 +33,7 @@ public class GetVisitsTests
     	ApiRequest request = new ApiRequest(httpRequest);
     	
     	String json = "{'users':[{'userId':1,'lastName':'Doe','firstName':'John','createdAt':'2022-09-10T15:50:28.000Z','updatedAt':'2022-09-10T15:50:28.000Z'},{'userId':2,'lastName':'Smith','firstName':'Danny','createdAt':'2022-09-10T15:50:28.000Z','updatedAt':'2022-09-10T15:50:28.000Z'},{'userId':3,'lastName':'Smith','firstName':'Harry','createdAt':'2022-09-10T15:50:28.000Z','updatedAt':'2022-09-10T15:50:28.000Z'},{'userId':4,'lastName':'gates','firstName':'bill','createdAt':'2022-09-10T15:51:33.000Z','updatedAt':'2022-09-10T15:51:33.000Z'},{'userId':5,'lastName':'gates','firstName':'bill','createdAt':'2022-09-10T15:53:14.000Z','updatedAt':'2022-09-10T15:53:14.000Z'},{'userId':6,'lastName':'gates','firstName':'bill','createdAt':'2022-09-10T15:53:28.000Z','updatedAt':'2022-09-10T15:53:28.000Z'}]}";
-    	ApiResponse response = new ApiResponse(200, new JSONObject(json));
-    	
-		DatabaseChange databaseChange = DatabaseChange.noChange;
+    	ApiResponse response = new ApiResponse(HttpURLConnection.HTTP_OK, new JSONObject(json));
 		
     	TestResult expectedTestResult = new TestResult(true);
     	
@@ -43,14 +42,13 @@ public class GetVisitsTests
     	.build()
     	.withRequest(request)
     	.withExpectedResponse(response)
-    	.withExpectedDatabaseChange(databaseChange)
+    	.withExpectedDatabaseChange(DatabaseChange.noChange)
     	.call()
     	.toResult();
     	
     	assertEquals(result, expectedTestResult);
 		} catch (URISyntaxException e) {
- 			// TODO Auto-generated catch block
- 			e.printStackTrace();
+ 			fail();
  		}
     }
 }
