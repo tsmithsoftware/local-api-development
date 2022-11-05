@@ -3,5 +3,5 @@ const client = getSequelizeClient();
 
 exports.handler = async (event) => {
     const users = await User.findAll();
-    return JSON.stringify(users);
+    return {"users": users};
 };
