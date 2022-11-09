@@ -38,6 +38,8 @@ jobs:
         report_paths: ./testing/backend/integration/integration-tests/target/surefire-reports/TEST-*.xml
         # fail run if there were test failures
         fail_on_test_failures: true
+        # name of job in build report
+        check_name: Integration Test Report
      
     # shutdown
     - name: Shutdown
