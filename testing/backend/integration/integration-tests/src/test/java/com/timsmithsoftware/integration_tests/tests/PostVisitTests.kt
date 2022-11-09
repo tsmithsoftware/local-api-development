@@ -1,15 +1,17 @@
 package com.timsmithsoftware.integration_tests.tests
 
 import com.timsmithsoftware.integration_tests.Constants
+import com.timsmithsoftware.integration_tests.SystemConfiguration
 import com.timsmithsoftware.integration_tests.TestBuilder
 import com.timsmithsoftware.integration_tests.models.ApiRequest
 import com.timsmithsoftware.integration_tests.models.ApiResponse
 import com.timsmithsoftware.integration_tests.models.TestResult
-import com.timsmithsoftware.integration_tests.models.connections.ApiConnection
-import com.timsmithsoftware.integration_tests.models.connections.DatabaseConnection
+import com.timsmithsoftware.integration_tests.models.ApiConnection
+import com.timsmithsoftware.integration_tests.models.DatabaseConnection
 import org.json.JSONObject
-import org.junit.Assert
-import org.junit.Test
+import org.junit.jupiter.api.AfterAll
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.BeforeAll
 import java.net.HttpURLConnection
 import java.net.URI
 import java.net.http.HttpClient
@@ -17,7 +19,19 @@ import java.net.http.HttpRequest
 import java.net.http.HttpRequest.BodyPublishers
 
 class PostVisitTests {
-    @Test
+
+    companion object {
+
+        @BeforeAll
+        @JvmStatic
+        internal fun beforeAll() {
+            println("PostVisits - waiting for connection")
+            val config = SystemConfiguration()
+            config.waitForConnections()
+        }
+    }
+
+    @org.junit.jupiter.api.Test
     fun postVisitHappyPath() {
         try {
             val json = "{" +
@@ -47,13 +61,13 @@ class PostVisitTests {
                     .withExpectedResponse(response) //.withExpectedDatabaseChange(DatabaseChange.noChange) // change expected, tbd
                     .call()
                     .toResult()
-            Assert.assertEquals(result, expectedTestResult)
+            Assertions.assertEquals(result, expectedTestResult)
         } catch (e: Exception) {
-            Assert.fail(e.message)
+            Assertions.fail(e.message)
         }
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     fun postVisitReturnsUnprocessableEntityIfNotEnoughInformationProvided() {
     }
 }

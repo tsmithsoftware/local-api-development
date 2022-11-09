@@ -3,11 +3,11 @@ package com.timsmithsoftware.integration_tests
 object App {
     @JvmStatic
     fun main(args: Array<String>) {
-        val config = SystemConfiguration()
+        //val config = SystemConfiguration()
         // run system tests - check we can talk to the DB and API
-        config.waitForConnections()
+        //config.waitForConnections()
         // run API integration tests
-        val results = config.runTests()
+        //val results = config.runTests()
         // handle results
     }
 }

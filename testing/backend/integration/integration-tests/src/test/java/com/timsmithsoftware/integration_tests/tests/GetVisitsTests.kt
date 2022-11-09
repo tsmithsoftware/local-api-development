@@ -1,16 +1,18 @@
 package com.timsmithsoftware.integration_tests.tests
 
 import com.timsmithsoftware.integration_tests.Constants
+import com.timsmithsoftware.integration_tests.SystemConfiguration
 import com.timsmithsoftware.integration_tests.TestBuilder
 import com.timsmithsoftware.integration_tests.models.ApiRequest
 import com.timsmithsoftware.integration_tests.models.ApiResponse
 import com.timsmithsoftware.integration_tests.models.DatabaseChange
 import com.timsmithsoftware.integration_tests.models.TestResult
-import com.timsmithsoftware.integration_tests.models.connections.ApiConnection
-import com.timsmithsoftware.integration_tests.models.connections.DatabaseConnection
+import com.timsmithsoftware.integration_tests.models.ApiConnection
+import com.timsmithsoftware.integration_tests.models.DatabaseConnection
 import org.json.JSONObject
-import org.junit.Assert
-import org.junit.Test
+import org.junit.jupiter.api.AfterAll
+import org.junit.jupiter.api.Assertions
+import org.junit.jupiter.api.BeforeAll
 import java.net.HttpURLConnection
 import java.net.URI
 import java.net.URISyntaxException
@@ -22,7 +24,18 @@ import java.net.http.HttpRequest
  */
 class GetVisitsTests {
 
-    @Test
+    companion object {
+
+        @BeforeAll
+        @JvmStatic
+        internal fun beforeAll() {
+            println("GetVisits - waiting for connection")
+            val config = SystemConfiguration()
+            config.waitForConnections()
+        }
+    }
+
+    @org.junit.jupiter.api.Test
     fun visitsReturnsCorrectVisitsFromDatabase() {
         try {
             val httpRequest = HttpRequest
@@ -34,25 +47,16 @@ class GetVisitsTests {
             val jsonString = """{
             'users': [
             {
-                'userId': 1,
                 'lastName': 'Doe',
-                'firstName': 'John',
-                'createdAt': '2022-11-08T11:17:58.000Z',
-                'updatedAt': '2022-11-08T11:17:58.000Z'
+                'firstName': 'John'
             },
             {
-                'userId': 2,
                 'lastName': 'Smith',
-                'firstName': 'Danny',
-                'createdAt': '2022-11-08T11:17:58.000Z',
-                'updatedAt': '2022-11-08T11:17:58.000Z'
+                'firstName': 'Danny'
             },
             {
-                'userId': 3,
                 'lastName': 'Smith',
-                'firstName': 'Harry',
-                'createdAt': '2022-11-08T11:17:58.000Z',
-                'updatedAt': '2022-11-08T11:17:58.000Z'
+                'firstName': 'Harry'
             }
             ]
         }""";
@@ -73,9 +77,9 @@ class GetVisitsTests {
                     .call()
                     .toResult()
 
-            Assert.assertEquals(result, TestResult.TRUE)
+            Assertions.assertEquals(TestResult.TRUE, result)
         } catch (e: URISyntaxException) {
-            Assert.fail()
+            Assertions.fail()
         }
     }
 }

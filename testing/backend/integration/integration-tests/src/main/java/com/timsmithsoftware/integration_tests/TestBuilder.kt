@@ -4,8 +4,8 @@ import com.timsmithsoftware.integration_tests.models.ApiRequest
 import com.timsmithsoftware.integration_tests.models.ApiResponse
 import com.timsmithsoftware.integration_tests.models.DatabaseChange
 import com.timsmithsoftware.integration_tests.models.TestResult
-import com.timsmithsoftware.integration_tests.models.connections.ApiConnection
-import com.timsmithsoftware.integration_tests.models.connections.DatabaseConnection
+import com.timsmithsoftware.integration_tests.models.ApiConnection
+import com.timsmithsoftware.integration_tests.models.DatabaseConnection
 import org.json.JSONObject
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service

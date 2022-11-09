@@ -1,16 +1,17 @@
-package com.timsmithsoftware.integration_tests.models.connections
+package com.timsmithsoftware.integration_tests.models
 
-import com.timsmithsoftware.integration_tests.models.ApiRequest
-import com.timsmithsoftware.integration_tests.models.ApiResponse
+import com.timsmithsoftware.integration_tests.SystemConfiguration
 import org.json.JSONObject
-import org.junit.Test
+import org.junit.jupiter.api.AfterAll
+import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.Test
 import org.mockito.Mockito.*
+import java.net.HttpURLConnection
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
-import kotlin.test.assertFalse
 
 
 class ApiConnectionTests {
@@ -45,7 +46,7 @@ class ApiConnectionTests {
         )).thenReturn(mockFailure)
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     fun shouldAnswerWithTrueIfApiConnectionSucceeds() {
 
         setUpMockSuccess()
@@ -61,14 +62,14 @@ class ApiConnectionTests {
         assertEquals(expectedResponse, result)
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     fun shouldAnswerWithFalseIfApiConnectionFails() {
         setUpMockFailure()
         val mockRequest = ApiRequest(mockHttpRequest)
 
         val result = apiConnection.call(mockRequest)
 
-        val expectedResponse = ApiResponse(400, JSONObject("{'success':false}"))
+        val expectedResponse = ApiResponse(HttpURLConnection.HTTP_BAD_REQUEST, JSONObject("{'success':false}"))
 
         verify(mockClient).send(
                 mockHttpRequest, HttpResponse.BodyHandlers.ofString()
@@ -80,7 +81,7 @@ class ApiConnectionTests {
     @Test
     fun checkAliveShouldReturnTrueIfAvailable() {
         val mockSuccess: HttpResponse<String> = mock(HttpResponse::class.java) as HttpResponse<String>
-        `when`(mockSuccess.statusCode()).thenReturn(200)
+        `when`(mockSuccess.statusCode()).thenReturn(HttpURLConnection.HTTP_NO_CONTENT)
 
         `when`(mockClient.send<String>(
                 any(), any()

@@ -1,4 +1,4 @@
-package com.timsmithsoftware.integration_tests.models.connections
+package com.timsmithsoftware.integration_tests.models
 
 class DatabaseConnection : Connection {
     override fun waitUntilAlive(): Boolean {

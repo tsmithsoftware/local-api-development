@@ -1,10 +1,12 @@
-package com.timsmithsoftware.integration_tests.models.connections
+package com.timsmithsoftware.integration_tests.models
 
 import com.timsmithsoftware.integration_tests.Constants
 import com.timsmithsoftware.integration_tests.models.ApiRequest
 import com.timsmithsoftware.integration_tests.models.ApiResponse
 import org.json.JSONObject
 import org.springframework.stereotype.Service
+import java.net.ConnectException
+import java.net.HttpURLConnection
 import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
@@ -19,21 +21,20 @@ class ApiConnection (private val _client: HttpClient): Connection {
     }
 
     override fun waitUntilAlive(): Boolean {
-        val httpRequest = HttpRequest
+
+        try {
+            val httpRequest = HttpRequest
                 .newBuilder(URI(Constants.BASE_URL))
                 .GET()
                 .build()
-        var response = _client.send(httpRequest, HttpResponse.BodyHandlers.ofString())
-        while (response.statusCode() != 200) {
-            response?.body()?.let {
-                if(!response.body().toString().contains("existingRoutes")){
-                    Thread.sleep(200)
-                    response = _client.send(httpRequest, HttpResponse.BodyHandlers.ofString())
-                }
-                return true
+            val response = _client.send(httpRequest, HttpResponse.BodyHandlers.ofString())
+            while (response.statusCode() != HttpURLConnection.HTTP_NO_CONTENT) {
+                Thread.sleep(200)
+                return waitUntilAlive()
             }
+        } catch (e: ConnectException) {
             Thread.sleep(200)
-            response = _client.send(httpRequest, HttpResponse.BodyHandlers.ofString())
+            return waitUntilAlive()
         }
         return true
     }
