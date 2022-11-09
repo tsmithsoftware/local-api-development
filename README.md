@@ -26,8 +26,7 @@ Integration and UI test frameworks will also be included as part of this project
 
 The UI test framework will run in a separate container. It will check out the code, build the apk, install the apk on an emulator and run the UI tests against that emulator.
 
-Progress:
-30/08 Serverless project and Postgres containers set up and connected. Serverless uses the Sequelize library to communicate with the database.
+Progress is tracked via the associated Actions section of this repository.
 
 ## Build pipeline
 The build pipeline is accessed at the Github Actions section of the repository. This pipeline is intended to:
