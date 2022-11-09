@@ -10,7 +10,6 @@ import com.timsmithsoftware.integration_tests.models.TestResult
 import com.timsmithsoftware.integration_tests.models.ApiConnection
 import com.timsmithsoftware.integration_tests.models.DatabaseConnection
 import org.json.JSONObject
-import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeAll
 import java.net.HttpURLConnection
@@ -61,18 +60,19 @@ class GetVisitsTests {
             ]
         }""";
 
-            val response = ApiResponse(HttpURLConnection.HTTP_OK, JSONObject(jsonString))
+            val expectedApiResponse = ApiResponse(HttpURLConnection.HTTP_OK, JSONObject(jsonString))
 
             val httpClient = HttpClient.newHttpClient()
             val apiConnection = ApiConnection(httpClient)
 
             val databaseConnection = DatabaseConnection()
 
+            // TODO set up DI
             val test = TestBuilder(apiConnection, databaseConnection)
             val result = test
                     .build()
                     .withRequest(request)
-                    .withExpectedResponse(response)
+                    .withExpectedResponse(expectedApiResponse)
                     .withExpectedDatabaseChange(DatabaseChange.NO_CHANGE)
                     .call()
                     .toResult()

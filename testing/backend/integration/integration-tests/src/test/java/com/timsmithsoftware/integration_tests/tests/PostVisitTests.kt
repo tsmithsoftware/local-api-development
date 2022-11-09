@@ -9,7 +9,6 @@ import com.timsmithsoftware.integration_tests.models.TestResult
 import com.timsmithsoftware.integration_tests.models.ApiConnection
 import com.timsmithsoftware.integration_tests.models.DatabaseConnection
 import org.json.JSONObject
-import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeAll
 import java.net.HttpURLConnection
@@ -38,16 +37,19 @@ class PostVisitTests {
                     "\"lastName\":\"Smith\"," +
                     "\"firstName\":\"John\"" +
                     "}"
+
             val httpRequest = HttpRequest
                     .newBuilder(URI(Constants.POST_VISITS_URL))
                     .POST(BodyPublishers.ofString(json))
                     .build()
+
             val request = ApiRequest(httpRequest)
 
-            val response = ApiResponse(
+            val expectedResponse = ApiResponse(
                     HttpURLConnection.HTTP_CREATED,
                     JSONObject(json)
             )
+
             val expectedTestResult = TestResult.TRUE
 
             val httpClient = HttpClient.newHttpClient()
@@ -58,9 +60,11 @@ class PostVisitTests {
             val result = test
                     .build()
                     .withRequest(request)
-                    .withExpectedResponse(response) //.withExpectedDatabaseChange(DatabaseChange.noChange) // change expected, tbd
+                    .withExpectedResponse(expectedResponse)
+                //.withExpectedDatabaseChange(DatabaseChange.noChange) // change expected, tbd
                     .call()
                     .toResult()
+            
             Assertions.assertEquals(result, expectedTestResult)
         } catch (e: Exception) {
             Assertions.fail(e.message)

@@ -39,7 +39,7 @@ class TestBuilder(private var apiConnection: ApiConnection, var databaseConnecti
     fun call(): TestBuilder {
             _request?.let {
                 _actualResponse = apiConnection.call(it)
-                // check DB change has been done correctly
+                // TODO check DB change has been done correctly
             }
             return this
     }
