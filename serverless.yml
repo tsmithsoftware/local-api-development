@@ -9,6 +9,13 @@ provider:
     cowenv: dev
 
 functions:
+  root:
+    name: index
+    handler: lambda_funcs/root/index.handler
+    events:
+      - httpApi:
+          path: /
+          method: get
   getUsers:
     name: getUsers
     handler: lambda_funcs/getUsers/index.handler
