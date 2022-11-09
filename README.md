@@ -1,4 +1,4 @@
-# Sample CF/ Serverless / Integration Testing project
+# Local API / Automation Testing project
 
 ## Tech stack
 
