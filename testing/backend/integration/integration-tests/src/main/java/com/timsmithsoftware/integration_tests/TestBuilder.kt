@@ -1,27 +1,15 @@
 package com.timsmithsoftware.integration_tests
 
-import com.timsmithsoftware.integration_tests.models.ApiRequest
-import com.timsmithsoftware.integration_tests.models.ApiResponse
-import com.timsmithsoftware.integration_tests.models.DatabaseChange
-import com.timsmithsoftware.integration_tests.models.TestResult
-import com.timsmithsoftware.integration_tests.models.ApiConnection
-import com.timsmithsoftware.integration_tests.models.DatabaseConnection
-import org.json.JSONObject
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.stereotype.Service
-import java.io.IOException
-import java.net.http.HttpClient
-import java.net.http.HttpResponse
-import java.net.http.HttpResponse.BodyHandlers
+import com.timsmithsoftware.integration_tests.models.*
 
-class TestBuilder(private var apiConnection: ApiConnection, var databaseConnection: DatabaseConnection) {
+class TestBuilder(private var apiConnection: IApiConnection, var databaseConnection: Connection) {
 
-    private var _request: ApiRequest? = null
+    private var _request: IApiRequest? = null
     private var _expectedResponse: ApiResponse? = null
     private var _actualResponse: ApiResponse? = null
-    private var _databaseChange: DatabaseChange? = null
+    private var _databaseChange: ((DatabaseConnection) -> Boolean)? = null
 
-    fun withRequest(request: ApiRequest?): TestBuilder {
+    fun withRequest(request: IApiRequest?): TestBuilder {
         _request = request
         return this
     }
@@ -31,7 +19,7 @@ class TestBuilder(private var apiConnection: ApiConnection, var databaseConnecti
         return this
     }
 
-    fun withExpectedDatabaseChange(change: DatabaseChange?): TestBuilder {
+    fun withExpectedDatabaseChange(change: ((DatabaseConnection) -> Boolean)): TestBuilder {
         _databaseChange = change
         return this
     }
@@ -39,21 +27,32 @@ class TestBuilder(private var apiConnection: ApiConnection, var databaseConnecti
     fun call(): TestBuilder {
             _request?.let {
                 _actualResponse = apiConnection.call(it)
-                // TODO check DB change has been done correctly
             }
             return this
     }
 
     fun toResult(): TestResult {
-        _expectedResponse?.let { expected ->
-            _actualResponse?.let { actual ->
-                val passes = expected == actual
-                if (passes) {
-                    return TestResult.TRUE
-                } else {
-                    return TestResult.FALSE
+        _databaseChange?.let { _databaseChange ->
+            _expectedResponse?.let { expected ->
+                _actualResponse?.let { actual ->
+                    val passes = expected == actual
+                    if (passes) {
+                        val dbConn = databaseConnection
+                        if(dbConn is DatabaseConnection) {
+                            val testPasses = _databaseChange.invoke(dbConn)
+                            testPasses.let {
+                                if(it) {
+                                    return TestResult.TRUE
+                                } else {
+                                    return TestResult.FALSE
+                                }
+                            }
+                        }
+                    } else {
+                        return TestResult.FALSE
+                    }
+                    // check DBResults
                 }
-                // check DBResults
             }
         }
         return TestResult.FALSE

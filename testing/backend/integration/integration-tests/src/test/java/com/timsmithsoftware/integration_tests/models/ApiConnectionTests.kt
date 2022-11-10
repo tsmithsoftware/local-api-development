@@ -1,9 +1,6 @@
 package com.timsmithsoftware.integration_tests.models
 
-import com.timsmithsoftware.integration_tests.SystemConfiguration
 import org.json.JSONObject
-import org.junit.jupiter.api.AfterAll
-import org.junit.jupiter.api.BeforeAll
 import org.junit.jupiter.api.Test
 import org.mockito.Mockito.*
 import java.net.HttpURLConnection
@@ -12,7 +9,6 @@ import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 import kotlin.test.assertEquals
 import kotlin.test.assertTrue
-
 
 class ApiConnectionTests {
 
@@ -46,7 +42,7 @@ class ApiConnectionTests {
         )).thenReturn(mockFailure)
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     fun shouldAnswerWithTrueIfApiConnectionSucceeds() {
 
         setUpMockSuccess()
@@ -62,7 +58,7 @@ class ApiConnectionTests {
         assertEquals(expectedResponse, result)
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     fun shouldAnswerWithFalseIfApiConnectionFails() {
         setUpMockFailure()
         val mockRequest = ApiRequest(mockHttpRequest)
