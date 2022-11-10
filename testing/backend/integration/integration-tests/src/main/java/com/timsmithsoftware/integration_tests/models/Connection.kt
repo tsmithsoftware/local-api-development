@@ -9,6 +9,7 @@ interface Connection {
 
 interface IDatabaseConnection: Connection {
     fun getUsers(): List<User>
+    fun removeUser(lastName: String, firstName: String)
 }
 interface IApiConnection: Connection {
     fun call(request: IApiRequest): ApiResponse
