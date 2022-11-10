@@ -63,16 +63,14 @@ class GetVisitsTests {
 
             val databaseConnection = DatabaseConnection()
 
-            val changeFunction = { dbConnection: DatabaseConnection -> confirmChange(dbConnection) }
-
             // TODO set up DI
             val test = TestBuilder(apiConnection, databaseConnection)
             val result = test
                     .build()
                     .withRequest(request)
                     .withExpectedResponse(expectedApiResponse)
-                    .withExpectedDatabaseChange(changeFunction)
-                    .call()
+                    .withExpectedDatabaseChange { dbConnection: DatabaseConnection -> confirmChange(dbConnection) }
+                .call()
                     .toResult()
 
             Assertions.assertEquals(TestResult.TRUE, result)
@@ -82,7 +80,7 @@ class GetVisitsTests {
     }
 
     private fun confirmChange(dbConnection: DatabaseConnection): Boolean {
-        dbConnection.execute("SELECT * FROM VISITS")
-        return false
+        val users = dbConnection.getUsers()
+        return users.count() > 1
     }
 }
