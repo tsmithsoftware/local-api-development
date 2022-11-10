@@ -13,9 +13,9 @@ import java.net.http.HttpRequest
 import java.net.http.HttpResponse
 
 @Service
-class ApiConnection (private val _client: HttpClient): Connection {
+class ApiConnection (private val _client: HttpClient): IApiConnection {
 
-    fun call(request: ApiRequest): ApiResponse {
+    override fun call(request: IApiRequest): ApiResponse {
         val response: HttpResponse<String> = _client.send(request.request, HttpResponse.BodyHandlers.ofString())
         return ApiResponse(response.statusCode(), JSONObject(response.body().toString()))
     }

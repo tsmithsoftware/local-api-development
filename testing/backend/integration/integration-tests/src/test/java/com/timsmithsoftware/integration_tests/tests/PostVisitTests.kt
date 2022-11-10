@@ -16,6 +16,7 @@ import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
 import java.net.http.HttpRequest.BodyPublishers
+import org.junit.jupiter.api.Test
 
 class PostVisitTests {
 
@@ -30,7 +31,7 @@ class PostVisitTests {
         }
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     fun postVisitHappyPath() {
         try {
             val json = "{" +
@@ -71,7 +72,7 @@ class PostVisitTests {
         }
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     fun postVisitReturnsUnprocessableEntityIfNotEnoughInformationProvided() {
     }
 }

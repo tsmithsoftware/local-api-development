@@ -3,12 +3,7 @@ package com.timsmithsoftware.integration_tests.tests
 import com.timsmithsoftware.integration_tests.Constants
 import com.timsmithsoftware.integration_tests.SystemConfiguration
 import com.timsmithsoftware.integration_tests.TestBuilder
-import com.timsmithsoftware.integration_tests.models.ApiRequest
-import com.timsmithsoftware.integration_tests.models.ApiResponse
-import com.timsmithsoftware.integration_tests.models.DatabaseChange
-import com.timsmithsoftware.integration_tests.models.TestResult
-import com.timsmithsoftware.integration_tests.models.ApiConnection
-import com.timsmithsoftware.integration_tests.models.DatabaseConnection
+import com.timsmithsoftware.integration_tests.models.*
 import org.json.JSONObject
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeAll
@@ -17,6 +12,7 @@ import java.net.URI
 import java.net.URISyntaxException
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
+import org.junit.jupiter.api.Test
 
 /**
  * Integration test for GetVisits end point.
@@ -34,7 +30,7 @@ class GetVisitsTests {
         }
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     fun visitsReturnsCorrectVisitsFromDatabase() {
         try {
             val httpRequest = HttpRequest
@@ -67,13 +63,15 @@ class GetVisitsTests {
 
             val databaseConnection = DatabaseConnection()
 
+            val changeFunction = { dbConnection: DatabaseConnection -> confirmChange(dbConnection) }
+
             // TODO set up DI
             val test = TestBuilder(apiConnection, databaseConnection)
             val result = test
                     .build()
                     .withRequest(request)
                     .withExpectedResponse(expectedApiResponse)
-                    .withExpectedDatabaseChange(DatabaseChange.NO_CHANGE)
+                    .withExpectedDatabaseChange(changeFunction)
                     .call()
                     .toResult()
 
@@ -81,5 +79,10 @@ class GetVisitsTests {
         } catch (e: URISyntaxException) {
             Assertions.fail()
         }
+    }
+
+    private fun confirmChange(dbConnection: DatabaseConnection): Boolean {
+        dbConnection.execute("SELECT * FROM VISITS")
+        return false
     }
 }
