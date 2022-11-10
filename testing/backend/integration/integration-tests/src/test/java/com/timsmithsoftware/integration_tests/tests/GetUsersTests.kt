@@ -17,14 +17,14 @@ import org.junit.jupiter.api.Test
 /**
  * Integration test for GetVisits end point.
  */
-class GetVisitsTests {
+class GetUsersTests {
 
     companion object {
 
         @BeforeAll
         @JvmStatic
         internal fun beforeAll() {
-            println("GetVisits - waiting for connection")
+            println("GetUsers - waiting for connection")
             val config = SystemConfiguration()
             config.waitForConnections()
         }
@@ -34,7 +34,7 @@ class GetVisitsTests {
     fun visitsReturnsCorrectVisitsFromDatabase() {
         try {
             val httpRequest = HttpRequest
-                    .newBuilder(URI(Constants.VISITS_URL))
+                    .newBuilder(URI(Constants.USERS_URL))
                     .GET()
                     .build()
             val request = ApiRequest(httpRequest)

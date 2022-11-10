@@ -8,7 +8,9 @@ import com.timsmithsoftware.integration_tests.models.ApiResponse
 import com.timsmithsoftware.integration_tests.models.TestResult
 import com.timsmithsoftware.integration_tests.models.ApiConnection
 import com.timsmithsoftware.integration_tests.models.DatabaseConnection
+import com.timsmithsoftware.integration_tests.models.database.User
 import org.json.JSONObject
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeAll
 import java.net.HttpURLConnection
@@ -18,16 +20,23 @@ import java.net.http.HttpRequest
 import java.net.http.HttpRequest.BodyPublishers
 import org.junit.jupiter.api.Test
 
-class PostVisitTests {
+class PostUserTests {
 
     companion object {
 
         @BeforeAll
         @JvmStatic
         internal fun beforeAll() {
-            println("PostVisits - waiting for connection")
+            println("PostUser - waiting for connection")
             val config = SystemConfiguration()
             config.waitForConnections()
+        }
+
+        @AfterEach
+        @JvmStatic
+        internal fun afterEach(){
+            println("PostUser - cleaning up data")
+            DatabaseConnection().removeUser("Smith", "John")
         }
     }
 
@@ -40,7 +49,7 @@ class PostVisitTests {
                     "}"
 
             val httpRequest = HttpRequest
-                    .newBuilder(URI(Constants.POST_VISITS_URL))
+                    .newBuilder(URI(Constants.POST_USERS_URL))
                     .POST(BodyPublishers.ofString(json))
                     .build()
 
