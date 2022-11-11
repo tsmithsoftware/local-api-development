@@ -27,11 +27,12 @@ class DatabaseConnectionTests {
     }
 
     @Test
-    fun removeUserRemovesUser() {
+    fun addThenRemoveUserRemovesAddedUser() {
         val userList = conn.getUsers()
         val userSize = userList.size
-        val user: User = userList.first()
-        conn.removeUser(user.lastName, user.firstName)
-        assert(conn.getUsers().size == userSize - 1)
+        conn.addUser(lastName = "Test", firstName = "Bill")
+        assert(conn.getUsers().size == userSize + 1)
+        conn.removeUser("Test", "Bill")
+        assert(conn.getUsers().size == userSize)
     }
 }
