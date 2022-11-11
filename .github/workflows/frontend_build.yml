@@ -27,6 +27,9 @@ jobs:
         flutter-version: 3.3.1
         channel: stable
     - run: flutter pub get
-    - run: flutter test
+    - run: flutter test --coverage
     - run: flutter analyze
     - run: flutter build apk
+    - uses: romeovs/lcov-reporter-action@v0.2.16
+      with:
+        lcov-file: ./coverage/lcov.info
