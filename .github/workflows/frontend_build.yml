@@ -5,7 +5,8 @@
 
 name: Flutter FE build, analyse test
 
-on: [push, pull_request, workflow_dispatch]
+# no pull_request trigger, the push build combined with the branch lock should be sufficient
+on: [push, workflow_dispatch]
 
 jobs:
   build:
