@@ -43,7 +43,7 @@ jobs:
     - name: ReportGenerator
       uses: danielpalme/ReportGenerator-GitHub-Action@5.1.10
       with:
-        reports: $pwd/coverage/lcov.info
+        reports: fe/user_management/coverage/lcov.info
         targetdir: ./coveragereport
     
    # - name: Very Good Coverage
