@@ -29,6 +29,7 @@ class DatabaseConnection : IDatabaseConnection {
             .toList()
 
         for(user in usersToDelete) {
+            println("Cleaning up user: ${user.firstName} ${user.lastName} with ID ${user.id}")
             database.delete(Users) { it.id eq user.id }
         }
     }
