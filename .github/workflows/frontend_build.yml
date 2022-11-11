@@ -12,7 +12,7 @@ jobs:
     runs-on: ubuntu-latest
     defaults:
       run:
-        working-directory: fe/user-management/
+        working-directory: fe/user_management/
 
     steps:
     - uses: actions/checkout@v3
