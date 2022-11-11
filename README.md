@@ -20,11 +20,11 @@ The above diagram shows the basic architecture.
 
 The basic structure is an API Gateway pointing to a set of lambdas, which interact with a Postgres instance. The Postgres instance then feeds into a AWS Redshift data lake. A PBI report would then interact through the Redshift instance.
 
-The basic data model would be visits to stores. 
+The basic data model would be keeping track of users of an application. 
 
-Integration and UI test frameworks will also be included as part of this project. The integration test framework will follow that currently used in DFE.
+Integration and UI test frameworks will also be included as part of this project.
 
-The UI test framework will run in a separate container. It will check out the code, build the apk, install the apk on an emulator and run the UI tests against that emulator.
+The UI test framework will run in a separate container. It will check out the FE code, build the apk, install the apk on an emulator and run the UI tests against that emulator.
 
 Progress is tracked via the associated Actions section of this repository.
 
