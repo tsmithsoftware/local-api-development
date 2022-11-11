@@ -25,6 +25,9 @@
     <jupiter.version>5.9.0</jupiter.version>
     <mockito.version>4.8.0</mockito.version>
     <mysql-connector.version>8.0.31</mysql-connector.version>
+    <connection-pool.version>5.0.1</connection-pool.version>
+    <http-components.version>4.3.1.wso2v1</http-components.version>
+    <org-json.version>20220924</org-json.version>
   </properties>
 
   <dependencies>
@@ -37,12 +40,12 @@
     <dependency>
     	<groupId>org.wso2.apache.httpcomponents</groupId>
     	<artifactId>httpclient</artifactId>
-    	<version>4.3.1.wso2v1</version>
+    	<version>${http-components.version}</version>
     </dependency>
 	<dependency>
 	    <groupId>org.json</groupId>
 	    <artifactId>json</artifactId>
-	    <version>20220924</version>
+	    <version>${org-json.version}</version>
 	</dependency>
     <dependency>
       <groupId>org.jetbrains.kotlin</groupId>
@@ -80,7 +83,7 @@
     <dependency>
       <groupId>com.zaxxer</groupId>
       <artifactId>HikariCP</artifactId>
-      <version>5.0.1</version>
+      <version>${connection-pool.version}</version>
     </dependency>
   </dependencies>
 
