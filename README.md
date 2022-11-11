@@ -18,7 +18,7 @@
 <img src="./project_arch.PNG"/>
 The above diagram shows the basic architecture. 
 
-The basic structure is an API Gateway pointing to a set of lambdas, which interact with a Postgres instance. The Postgres instance then feeds into a AWS Redshift data lake. A PBI report would then interact through the Redshift instance.
+The basic structure is an API Gateway pointing to a set of lambdas, which interact with a Postgres instance. The Postgres instance then feeds into a another database representing a data lake. A PBI report would then interact through the "lake" instance.
 
 The basic data model would be keeping track of users of an application. 
 
