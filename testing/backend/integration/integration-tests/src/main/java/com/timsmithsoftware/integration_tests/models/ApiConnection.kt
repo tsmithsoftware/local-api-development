@@ -1,8 +1,6 @@
 package com.timsmithsoftware.integration_tests.models
 
 import com.timsmithsoftware.integration_tests.Constants
-import com.timsmithsoftware.integration_tests.models.ApiRequest
-import com.timsmithsoftware.integration_tests.models.ApiResponse
 import org.json.JSONObject
 import org.springframework.stereotype.Service
 import java.net.ConnectException
@@ -24,7 +22,7 @@ class ApiConnection (private val _client: HttpClient): IApiConnection {
 
         try {
             val httpRequest = HttpRequest
-                .newBuilder(URI(Constants.BASE_URL))
+                .newBuilder(URI(Constants.BASE_API_URL))
                 .GET()
                 .build()
             val response = _client.send(httpRequest, HttpResponse.BodyHandlers.ofString())

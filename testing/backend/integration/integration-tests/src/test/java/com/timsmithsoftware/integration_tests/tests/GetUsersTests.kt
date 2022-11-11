@@ -4,6 +4,7 @@ import com.timsmithsoftware.integration_tests.Constants
 import com.timsmithsoftware.integration_tests.SystemConfiguration
 import com.timsmithsoftware.integration_tests.TestBuilder
 import com.timsmithsoftware.integration_tests.models.*
+import com.timsmithsoftware.integration_tests.models.database.User
 import org.json.JSONObject
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeAll
@@ -34,7 +35,7 @@ class GetUsersTests {
     fun visitsReturnsCorrectVisitsFromDatabase() {
         try {
             val httpRequest = HttpRequest
-                    .newBuilder(URI(Constants.USERS_URL))
+                    .newBuilder(URI(Constants.GET_USERS_API_URL))
                     .GET()
                     .build()
             val request = ApiRequest(httpRequest)
@@ -54,7 +55,7 @@ class GetUsersTests {
                 'firstName': 'Harry'
             }
             ]
-        }""";
+        }"""
 
             val expectedApiResponse = ApiResponse(HttpURLConnection.HTTP_OK, JSONObject(jsonString))
 
@@ -65,15 +66,17 @@ class GetUsersTests {
 
             // TODO set up DI
             val test = TestBuilder(apiConnection, databaseConnection)
-            val result = test
+            val testRun = test
                     .build()
+                    .withDescription("GetVisits returns correct visit list from database")
                     .withRequest(request)
                     .withExpectedResponse(expectedApiResponse)
                     .withExpectedDatabaseChange { dbConnection: DatabaseConnection -> confirmChange(dbConnection) }
-                .call()
-                    .toResult()
+                    .call()
 
-            Assertions.assertEquals(TestResult.TRUE, result)
+            val testResult = testRun.toResult()
+
+            Assertions.assertEquals(TestResult.TRUE, testResult, testResult.resultNotes)
         } catch (e: URISyntaxException) {
             Assertions.fail()
         }
@@ -81,6 +84,9 @@ class GetUsersTests {
 
     private fun confirmChange(dbConnection: DatabaseConnection): Boolean {
         val users = dbConnection.getUsers()
-        return users.count() > 1
+        val john: User? = users.find { it.lastName == "Doe" && it.firstName == "John"}
+        val danny: User? = users.find { it.lastName == "Smith" && it.firstName == "Danny"}
+        val harry: User? = users.find { it.lastName == "Smith" && it.firstName == "Harry"}
+        return john != null && danny != null && harry != null
     }
 }

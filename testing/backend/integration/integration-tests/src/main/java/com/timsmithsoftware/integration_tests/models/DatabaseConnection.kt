@@ -12,6 +12,10 @@ import java.sql.SQLException
 
 class DatabaseConnection : IDatabaseConnection {
 
+    private val jdbcConnectionString = "jdbc:mysql://127.0.0.1:3306/db"
+    private val databaseUserName = "user"
+    private val databasePassword = "password"
+
     override fun getUsers(): List<User> {
         val database = Database.connect(DataSource.source)
         return database.sequenceOf(Users).toList()
@@ -30,9 +34,9 @@ class DatabaseConnection : IDatabaseConnection {
     }
 
     override fun waitUntilAlive(): Boolean {
-        return try{
+        return try {
             val connection = DriverManager.getConnection(
-                "jdbc:mysql://127.0.0.1:3306/db", "user", "password")
+                jdbcConnectionString, databaseUserName, databasePassword)
             connection.close()
             true
         } catch (e: SQLException){

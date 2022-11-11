@@ -3,22 +3,18 @@ package com.timsmithsoftware.integration_tests.tests
 import com.timsmithsoftware.integration_tests.Constants
 import com.timsmithsoftware.integration_tests.SystemConfiguration
 import com.timsmithsoftware.integration_tests.TestBuilder
-import com.timsmithsoftware.integration_tests.models.ApiRequest
-import com.timsmithsoftware.integration_tests.models.ApiResponse
-import com.timsmithsoftware.integration_tests.models.TestResult
-import com.timsmithsoftware.integration_tests.models.ApiConnection
-import com.timsmithsoftware.integration_tests.models.DatabaseConnection
+import com.timsmithsoftware.integration_tests.models.*
 import com.timsmithsoftware.integration_tests.models.database.User
 import org.json.JSONObject
-import org.junit.jupiter.api.AfterEach
+import org.junit.jupiter.api.AfterAll
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.BeforeAll
+import org.junit.jupiter.api.Test
 import java.net.HttpURLConnection
 import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
 import java.net.http.HttpRequest.BodyPublishers
-import org.junit.jupiter.api.Test
 
 class PostUserTests {
 
@@ -32,12 +28,13 @@ class PostUserTests {
             config.waitForConnections()
         }
 
-        @AfterEach
+        @AfterAll
         @JvmStatic
-        internal fun afterEach(){
-            println("PostUser - cleaning up data")
+        internal fun afterAll() {
+            println("AfterAll - cleaning up data")
             DatabaseConnection().removeUser("Smith", "John")
         }
+
     }
 
     @Test
@@ -49,7 +46,7 @@ class PostUserTests {
                     "}"
 
             val httpRequest = HttpRequest
-                    .newBuilder(URI(Constants.POST_USERS_URL))
+                    .newBuilder(URI(Constants.POST_USER_API_URL))
                     .POST(BodyPublishers.ofString(json))
                     .build()
 
@@ -60,8 +57,7 @@ class PostUserTests {
                     JSONObject(json)
             )
 
-            val expectedTestResult = TestResult.TRUE
-
+            // TODO set up DI
             val httpClient = HttpClient.newHttpClient()
             val apiConnection = ApiConnection(httpClient)
             val databaseConnection = DatabaseConnection()
@@ -71,14 +67,20 @@ class PostUserTests {
                     .build()
                     .withRequest(request)
                     .withExpectedResponse(expectedResponse)
-                //.withExpectedDatabaseChange(DatabaseChange.noChange) // change expected, tbd
+                    .withExpectedDatabaseChange { dbConnection: DatabaseConnection -> confirmChange(dbConnection) }
                     .call()
                     .toResult()
             
-            Assertions.assertEquals(result, expectedTestResult)
+            Assertions.assertEquals(result, TestResult.TRUE)
         } catch (e: Exception) {
             Assertions.fail(e.message)
         }
+    }
+
+    private fun confirmChange(dbConnection: DatabaseConnection): Boolean{
+        val users = dbConnection.getUsers()
+        val johnSmith: User? = users.find { it.lastName == "Smith" && it.firstName == "John"}
+        return johnSmith != null
     }
 
     @Test
