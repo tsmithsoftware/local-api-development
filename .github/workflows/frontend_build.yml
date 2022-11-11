@@ -30,7 +30,7 @@ jobs:
     - run: flutter test --coverage
     # - run: flutter analyze
     # - run: flutter build apk
-    - run: ls
+    - run: ls ./coverage
     # - uses: romeovs/lcov-reporter-action@v0.2.16
     #  with:
     #    lcov-file: coverage/lcov.info
