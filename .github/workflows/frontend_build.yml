@@ -30,6 +30,7 @@ jobs:
     - run: flutter test --coverage
     # - run: flutter analyze
     # - run: flutter build apk
+    - run: pwd
     - run: ls ./coverage
     - run: cat ./coverage/lcov.info
     
