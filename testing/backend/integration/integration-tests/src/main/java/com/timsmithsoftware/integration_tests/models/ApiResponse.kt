@@ -17,4 +17,8 @@ class ApiResponse(private val code: Int, private val body: JSONObject?) {
         }
         return false
     }
+
+    override fun toString(): String {
+        return "Code: $code, Body: $body"
+    }
 }

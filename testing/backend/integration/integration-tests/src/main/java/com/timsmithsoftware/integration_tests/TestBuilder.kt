@@ -59,7 +59,13 @@ class TestBuilder(private var apiConnection: IApiConnection, var databaseConnect
                             }
                         }
                     } else {
-                        _testResult = TestResult.FALSE("Test failed due to incorrect API response")
+                        _testResult = TestResult.FALSE(
+                            "Test failed due to incorrect API response\n" +
+                                    "Expected response:" +
+                                    "$expected" +
+                                    "Actual response: " +
+                                    "$actual"
+                        )
                         return _testResult!!
                     }
                 }
