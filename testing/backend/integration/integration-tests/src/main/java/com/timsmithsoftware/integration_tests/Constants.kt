@@ -1,7 +1,7 @@
 package com.timsmithsoftware.integration_tests
 
 object Constants {
-    var BASE_URL = "http://localhost:3000"
-    var USERS_URL = "$BASE_URL/getUsers"
-    var POST_USERS_URL = "$BASE_URL/postUser"
+    const val BASE_API_URL = "http://localhost:3000"
+    const val GET_USERS_API_URL = "$BASE_API_URL/getUsers"
+    const val POST_USER_API_URL = "$BASE_API_URL/postUser"
 }
