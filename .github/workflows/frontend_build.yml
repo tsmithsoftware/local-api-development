@@ -46,6 +46,11 @@ jobs:
         reports: fe/user_management/coverage/lcov.info
         targetdir: ./coveragereport
     
+    - name: Upload coverage report artifact
+      uses: actions/upload-artifact@v2.2.3
+      with:
+        name: CoverageReport # Artifact name        
+        path: ./coveragereport # Directory containing files to upload
    # - name: Very Good Coverage
    #   uses: VeryGoodOpenSource/very_good_coverage@v2.0.0
    #   with:
