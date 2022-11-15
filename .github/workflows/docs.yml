@@ -30,3 +30,17 @@ jobs:
     - run: serverless openapi generate --output documentation/openapi/openapi.yaml --format yaml
     - run: cd documentation/openapi && redoc-cli build -o index.html openapi.yaml
     - run: cd documentation/openapi && ls
+    
+    - name: Upload GitHub Pages 
+      uses: actions/upload-pages-artifact@v1.0.4
+      with:
+        # Path of the directory containing the static assets.
+        path: documentation/openapi/index.html
+      
+    - name: Deploy GitHub Pages site
+      uses: actions/deploy-pages@v1.2.2
+      with:
+        # Name of the artifact to deploy
+        artifact_name: index.html
+      
+      
