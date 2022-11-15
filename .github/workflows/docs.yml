@@ -35,16 +35,26 @@ jobs:
     - run: cd documentation/openapi && redoc-cli build -o index.html openapi.yaml
     - run: cd documentation/openapi && ls
     
-    - name: Upload GitHub Pages 
-      uses: actions/upload-pages-artifact@v1.0.4
+    - name: Upload a Build Artifact
+      uses: actions/upload-artifact@v3.1.1
       with:
-        # Path of the directory containing the static assets.
-        path: documentation/openapi/
+        # Artifact name
+        name: index.html
+        # A file, directory or wildcard pattern that describes what to upload
+        path: documentation/openapi/index.html
+        # The desired behavior if no files are found using the provided path.
+        if-no-files-found: error
+    
+   # - name: Upload GitHub Pages 
+   #   uses: actions/upload-pages-artifact@v1.0.4
+   #   with:
+   #     # Path of the directory containing the static assets.
+   #     path: documentation/openapi/
       
     - name: Deploy GitHub Pages site
       uses: actions/deploy-pages@v1.2.2
       with:
         # Name of the artifact to deploy
-        artifact_name: documentation/openapi/index.html
+        artifact_name: index.html
       
       
