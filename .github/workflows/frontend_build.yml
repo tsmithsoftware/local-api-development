@@ -36,7 +36,7 @@ jobs:
     - name: Very Good Coverage - enforce code coverage
       uses: VeryGoodOpenSource/very_good_coverage@v2.0.0
       with:
-        path: ./coverage/lcov.info
+        path: fe/user_management/coverage/lcov.info
         min_coverage: 90
 
     - name: Write LCOV Report to Job Summary
