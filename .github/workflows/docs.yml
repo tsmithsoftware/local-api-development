@@ -35,12 +35,12 @@ jobs:
       uses: actions/upload-pages-artifact@v1.0.4
       with:
         # Path of the directory containing the static assets.
-        path: documentation/openapi/index.html
+        path: documentation/openapi/
       
     - name: Deploy GitHub Pages site
       uses: actions/deploy-pages@v1.2.2
       with:
         # Name of the artifact to deploy
-        artifact_name: index.html
+        artifact_name: documentation/openapi/index.html
       
       
