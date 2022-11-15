@@ -60,5 +60,3 @@ jobs:
       with:
         # Name of the artifact to deploy
         artifact_name: index.html
-      
-      
