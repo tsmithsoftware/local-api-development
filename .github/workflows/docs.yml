@@ -3,7 +3,7 @@ name: Generate and upload API documentation
 # This pipeline generates API documentation from the serverless definition using serverless-openapi
 
 # no pull_request trigger, the push build combined with the branch lock should be sufficient
-on: 
+on:
   push:
 #  push:
 #      paths:
@@ -18,18 +18,14 @@ jobs:
         working-directory: backend
     steps:
     - uses: actions/checkout@v3
-    
+
     - name: Setup Node.js environment
       uses: actions/setup-node@v3.5.1
-      
-    - name: NPM install with caching
-      uses: bahmutov/npm-install@v1.6.0
-      with:
-        # Working directory to specify subfolder in which dependencies are defined
-        working-directory: ./backend/
-        # Option to enable or disable use of a lock file (package-lock.json/yarn.lock)
-        useLockFile: true
-        
+
+    - run: npm config set prefix /usr/local
+    - run: npm install -g serverless
+    - run: npm install -g serverless-openapi
+    - run: npm install --save-dev
     - run: serverless openapi generate --output documentation/openapi/openapi.yaml --format yaml
     - run: cd documentation/openapi && redoc-cli build -o index.html openapi.yaml
     - run: cd documentation/openapi && ls
