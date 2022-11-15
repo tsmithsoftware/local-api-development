@@ -1,5 +1,6 @@
 service: Control of Works
 frameworkVersion: '3'
+configValidationMode: off
 
 provider:
   name: aws
