@@ -25,6 +25,8 @@ jobs:
     - name: NPM install with caching
       uses: bahmutov/npm-install@v1.6.0
       with:
+        # Working directory to specify subfolder in which dependencies are defined
+        working-directory: ./backend/
         # Option to enable or disable use of a lock file (package-lock.json/yarn.lock)
         useLockFile: true
         
