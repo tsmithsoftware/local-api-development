@@ -16,6 +16,19 @@ functions:
       - httpApi:
           path: /
           method: get
+          documentation:
+            summary: "Root"
+            description: "Used by the API testing framework to ensure live"
+            requestBody:
+              description: "An empty body"
+            requestModels:
+              application/json: "{}"
+          methodResponses:
+            - statusCode: 200
+              responseBody:
+                description: "API is alive"
+              responseModels:
+                application/json: "{}"
   getUsers:
     name: getUsers
     handler: lambda_funcs/getUsers/index.handler
@@ -23,6 +36,19 @@ functions:
       - httpApi:
           path: /getUsers
           method: get
+          documentation:
+            summary: "Get all users in application"
+            description: "Returns all user details currently stored in the application"
+            requestBody:
+              description: "An empty body"
+            requestModels:
+              application/json: "{}"
+          methodResponses:
+            - statusCode: 200
+              responseBody:
+                description: "A list of users"
+              responseModels:
+                application/json: "GetUsersResponse"
   postUser:
     name: postUser
     handler: lambda_funcs/postUser/index.handler
@@ -36,3 +62,17 @@ package:
 
 plugins:
   - serverless-offline
+  - serverless-openapi
+  
+ 	
+custom:
+  documentation:
+    version: '1'
+    title: 'Local API'
+    description: 'https://github.com/tsmithsoftware/local-api-development/'
+    models:
+      - name: "GetUsersResponse"
+        description: "A list of users"
+        contentType: "application/json"
+        schema: ${file(documentation/schemas/users_schema.json)}
+      
