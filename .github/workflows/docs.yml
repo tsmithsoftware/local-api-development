@@ -1,4 +1,4 @@
-name: Generate API documentation
+name: Generate and upload API documentation
 
 # no pull_request trigger, the push build combined with the branch lock should be sufficient
 on: 
