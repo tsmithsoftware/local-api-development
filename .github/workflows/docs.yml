@@ -1,5 +1,7 @@
 name: Generate and upload API documentation
 
+# This pipeline generates API documentation from the serverless definition using serverless-openapi
+
 # no pull_request trigger, the push build combined with the branch lock should be sufficient
 on: 
   push:
