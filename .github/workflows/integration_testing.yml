@@ -1,7 +1,12 @@
 name: Backend Integration Testing
 
 # remove push trigger until FE pipeline dev finished
-on: [workflow_dispatch, push, pull_request]
+on: 
+   workflow_dispatch:
+   push:
+      paths:
+        - backend/**
+   pull_request:
 
 jobs:
 
