@@ -1,0 +1,45 @@
+openapi: 3.0.0
+components:
+  schemas:
+    GetUsersResponse:
+      description: ''
+      type: object
+      properties:
+        users:
+          type: array
+          uniqueItems: true
+          minItems: 1
+          items:
+            required:
+              - lastName
+              - firstName
+            properties:
+              lastName:
+                type: string
+                minLength: 1
+              firstName:
+                type: string
+                minLength: 1
+      required:
+        - users
+info:
+  title: Local API
+  description: 'https://github.com/tsmithsoftware/local-api-development/'
+  version: '1'
+paths:
+  /:
+    get:
+      operationId: root
+      summary: Root
+      description: Used by the API testing framework to ensure live
+      requestBody: {}
+      parameters: []
+      responses: {}
+  /getUsers:
+    get:
+      operationId: getUsers
+      summary: Get all users in application
+      description: Returns all user details currently stored in the application
+      requestBody: {}
+      parameters: []
+      responses: {}
