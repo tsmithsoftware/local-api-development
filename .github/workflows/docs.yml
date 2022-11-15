@@ -25,6 +25,7 @@ jobs:
     - run: npm config set prefix /usr/local
     - run: npm install -g serverless
     - run: npm install -g serverless-openapi
+    - run: npm install -g redoc-cli
     - run: npm install --save-dev
     - run: serverless openapi generate --output documentation/openapi/openapi.yaml --format yaml
     - run: cd documentation/openapi && redoc-cli build -o index.html openapi.yaml
