@@ -10,9 +10,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-        defaults:
-          run:
-            working-directory: backend
+    defaults:
+      run:
+        working-directory: backend
     steps:
     - uses: actions/checkout@v3
     - name: Setup Node.js environment
