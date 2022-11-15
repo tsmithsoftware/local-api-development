@@ -56,15 +56,15 @@ functions:
       - httpApi:
           path: /postUser
           method: post
-          
+
 package:
     individually: true
 
 plugins:
   - serverless-offline
   - serverless-openapi
-  
- 	
+
+
 custom:
   documentation:
     version: '1'
@@ -75,4 +75,3 @@ custom:
         description: "A list of users"
         contentType: "application/json"
         schema: ${file(documentation/schemas/users_schema.json)}
-      
