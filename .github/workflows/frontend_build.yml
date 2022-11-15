@@ -30,7 +30,7 @@ jobs:
     - run: flutter analyze
     - run: flutter build apk
     - run: ls
-    - run: ls./coverage
+    - run: ls ./coverage
 
     - name: Very Good Coverage - enforce code coverage
       uses: VeryGoodOpenSource/very_good_coverage@v2.0.0
