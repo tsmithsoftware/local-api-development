@@ -42,4 +42,4 @@ jobs:
     - name: Write LCOV Report to Job Summary
       uses: livewing/lcov-job-summary@v1.0.0
       with:
-        lcov: coverage/lcov.info
+        lcov: fe/user_management/coverage/lcov.info
