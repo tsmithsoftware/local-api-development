@@ -1,8 +1,3 @@
-# This workflow uses actions that are not certified by GitHub.
-# They are provided by a third-party and are governed by
-# separate terms of service, privacy policy, and support
-# documentation.
-
 name: Flutter FE build, analyse test
 
 # no pull_request trigger, the push build combined with the branch lock should be sufficient
@@ -30,14 +25,14 @@ jobs:
     - run: flutter test --coverage
     - run: flutter analyze
     - run: flutter build apk
-    
+
     - name: Very Good Coverage - enforce code coverage
       uses: VeryGoodOpenSource/very_good_coverage@v2.0.0
       with:
-        path: fe/user_management/coverage/lcov.info
+        path: coverage/lcov.info
         min_coverage: 90
-        
+
     - name: Write LCOV Report to Job Summary
       uses: livewing/lcov-job-summary@v1.0.0
       with:
-        lcov: fe/user_management/coverage/lcov.info
+        lcov: coverage/lcov.info
