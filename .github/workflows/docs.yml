@@ -35,16 +35,16 @@ jobs:
     - run: npm install -g redoc-cli
     - run: npm install --save-dev
     - run: serverless openapi generate --output documentation/openapi/openapi.yaml --format yaml
-    - run: cd documentation/openapi && redoc-cli build -o index.html openapi.yaml
+    - run: cd documentation/openapi && redoc-cli build -o github-pages.html openapi.yaml
     - run: cd documentation/openapi && ls
     
     - name: Upload a Build Artifact
       uses: actions/upload-artifact@v3.1.1
       with:
         # Artifact name
-        name: index.html
+        name: github-pages.html
         # A file, directory or wildcard pattern that describes what to upload
-        path: documentation/openapi/index.html
+        path: documentation/openapi/github-pages.html
         # The desired behavior if no files are found using the provided path.
         if-no-files-found: error
     
@@ -59,4 +59,4 @@ jobs:
       uses: actions/deploy-pages@v1.2.2
       with:
         # Name of the artifact to deploy
-        artifact_name: index.html
+        artifact_name: github-pages.html
