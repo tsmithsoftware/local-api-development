@@ -35,7 +35,7 @@ jobs:
     - run: npm install -g redoc-cli
     - run: npm install --save-dev
     - run: serverless openapi generate --output documentation/openapi/openapi.yaml --format yaml
-    - run: cd documentation/openapi && redoc-cli build -o web/github-pages.html openapi.yaml
+    - run: cd documentation/openapi && redoc-cli build -o web/index.html openapi.yaml
     - run: cd documentation/openapi/web && ls -a
     
     - name: Upload GitHub Pages artifact
