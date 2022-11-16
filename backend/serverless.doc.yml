@@ -1,7 +1,7 @@
 documentation:
   version: "v1.0.0"
-  title: "Site API"
-  description: "Some Description"
+  title: "Users Local API"
+  description: "A test API used for the development of an integration testing solution"
   
   servers:
     - url: https://localhost:8000/

@@ -1,5 +1,17 @@
 {
-    "$schema": "http://json-schema.org/draft-04/schema#",
-    "title" : "Empty Schema",
-    "type" : "object"
+  "title": "Create User Response",
+  "description": "This is a successful response from the CreateUser API",
+  "type": "object",
+  "required": [
+    "firstName",
+	"lastName"
+  ],
+  "properties": {
+	  "firstName": {
+		  "type": "string"
+	  },
+	  "lastName": {
+		  "type":"string"
+	  }
   }
+}

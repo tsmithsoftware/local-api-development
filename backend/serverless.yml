@@ -73,9 +73,9 @@ functions:
             requestModels:
               application/json: CreateUserRequest
             methodResponses:
-              - statusCode: 200
+              - statusCode: 201
                 responseBody:
-                  description: A list of users
+                  description: The created user information returned as JSON
                 responseModels:
                   application/json: CreateUserResponse
               - statusCode: 500
