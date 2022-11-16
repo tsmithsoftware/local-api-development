@@ -1,78 +1,62 @@
-service: Control of Works
-frameworkVersion: '3'
-configValidationMode: off
-
+service: local-api-demo
+frameworkVersion: ">=3 <= 3.22.0"
 provider:
   name: aws
   runtime: nodejs14.x
-  stage: dev
-  environment:
-    cowenv: dev
+  
+plugins:
+  - serverless-openapi
 
 functions:
   root:
-    name: index
     handler: lambda_funcs/root/index.handler
     events:
-      - httpApi:
+      - http:
           path: /
           method: get
           documentation:
-            summary: "Root"
-            description: "Used by the API testing framework to ensure live"
+            summary: Root Endpoint
+            description: Used by the API testing framework to ensure live
             requestBody:
-              description: "An empty body"
+              description: An empty request
             requestModels:
-              application/json: "{}"
-          methodResponses:
-            - statusCode: 200
-              responseBody:
-                description: "API is alive"
-              responseModels:
-                application/json: "{}"
+              application/json: EmptyGetRequest
+            methodResponses:
+              - statusCode: 204
+                responseBody:
+                  description: An empty response
+                responseModels:
+                  application/json: EmptyGetRequest
+              - statusCode: 500
+                responseBody:
+                  description: An error message indicating a problem with the dockerised server
+                responseModels:
+                  application/json: ErrorResponse
+                  
   getUsers:
-    name: getUsers
     handler: lambda_funcs/getUsers/index.handler
     events:
-      - httpApi:
+      - http:
           path: /getUsers
           method: get
           documentation:
-            summary: "Get all users in application"
-            description: "Returns all user details currently stored in the application"
+            summary: Get User List
+            description: Obtain a user list from the application
             requestBody:
-              description: "An empty body"
+              description: An empty request
             requestModels:
-              application/json: "{}"
-          methodResponses:
-            - statusCode: 200
-              responseBody:
-                description: "A list of users"
-              responseModels:
-                application/json: "GetUsersResponse"
-  postUser:
-    name: postUser
-    handler: lambda_funcs/postUser/index.handler
-    events:
-      - httpApi:
-          path: /postUser
-          method: post
-
-package:
-    individually: true
-
-plugins:
-  - serverless-offline
-  - serverless-openapi
-
+              application/json: EmptyGetRequest
+            methodResponses:
+              - statusCode: 200
+                responseBody:
+                  description: A list of users
+                responseModels:
+                  application/json: GetUsersResponse
+              - statusCode: 500
+                responseBody:
+                  description: An error message indicating a problem with the dockerised server
+                responseModels:
+                  application/json: ErrorResponse
 
 custom:
-  documentation:
-    version: '1'
-    title: 'Local API'
-    description: 'https://github.com/tsmithsoftware/local-api-development/'
-    models:
-      - name: "GetUsersResponse"
-        description: "A list of users"
-        contentType: "application/json"
-        schema: ${file(documentation/schemas/users_schema.json)}
+  documentation: ${file(serverless.doc.yml):documentation}

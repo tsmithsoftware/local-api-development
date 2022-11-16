@@ -1,0 +1,46 @@
+documentation:
+  version: "v1.0.0"
+  title: "Site API"
+  description: "Some Description"
+  
+  servers:
+    - url: https://localhost:8000/
+      description: Dockerised server (uses test data)
+      
+  models:
+    - name: ErrorResponse
+      description: This is an error
+      contentType: application/json
+      schema: documentation/models/ErrorResponse.json
+
+    - name: EmptyGetRequest
+      description: Empty Get Request
+      contentType: application/json
+      schema: documentation/models/EmptyGetRequest.json
+        
+    - name: EmptyGetResponse
+      description: Empty Get Response
+      contentType: application/json
+      schema: documentation/models/EmptyGetResponse.json
+      
+    - name: GetUsersResponse
+      description: A list of users available in the application
+      contentType: application/json
+      schema: documentation/models/UserList.json
+
+    - name: PutDocumentResponse
+      description: PUT Document response model (external reference example)
+      contentType: application/json
+      schema: documentation/models/PutDocumentResponse.json
+
+    - name: PutDocumentRequest
+      description: PUT Document request model (inline example)
+      contentType: application/json
+      schema:
+        $schema: http://json-schema.org/draft-04/schema#
+        properties:
+          SomeObject:
+            type: object
+            properties:
+              SomeAttribute:
+                type: string
