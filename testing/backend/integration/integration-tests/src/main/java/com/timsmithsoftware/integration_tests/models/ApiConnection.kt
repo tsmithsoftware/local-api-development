@@ -31,8 +31,11 @@ class ApiConnection (private val _client: HttpClient): IApiConnection {
                 .newBuilder(URI(Constants.BASE_API_URL))
                 .GET()
                 .build()
+            println("ApiConnection.waitUntilAlive, making call")
             val response = _client.send(httpRequest, HttpResponse.BodyHandlers.ofString())
+            println("status code: ${response.statusCode()}, body: ${response.body()}")
             while (response.statusCode() != HttpURLConnection.HTTP_NO_CONTENT) {
+                println("sleeping...")
                 Thread.sleep(200)
                 return waitUntilAlive()
             }
@@ -40,6 +43,7 @@ class ApiConnection (private val _client: HttpClient): IApiConnection {
             Thread.sleep(200)
             return waitUntilAlive()
         }
+        println("alive!")
         return true
     }
 }
