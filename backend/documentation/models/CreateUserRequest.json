@@ -1,0 +1,17 @@
+{
+  "title": "Create User Request",
+  "description": "This is a schema for creating user requests in the JSON API format. For more, see http://jsonapi.org",
+  "type": "object",
+  "required": [
+    "firstName",
+	"lastName"
+  ],
+  "properties": {
+	  "firstName": {
+		  "type": "string"
+	  },
+	  "lastName": {
+		  "type":"string"
+	  }
+  }
+}

@@ -1,6 +1,116 @@
 openapi: 3.0.0
 components:
   schemas:
+    meta:
+      description: >-
+        TODO Non-standard meta-information that can not be represented as an
+        attribute or relationship.
+      type: object
+      additionalProperties: true
+    links:
+      description: >-
+        A resource object **MAY** contain references to other resource objects
+        ("relationships"). Relationships may be to-one or to-many. Relationships
+        can be specified by including a member in a resource's links object.
+      type: object
+      properties:
+        self:
+          description: >-
+            A `self` member, whose value is a URL for the relationship itself (a
+            "relationship URL"). This URL allows the client to directly
+            manipulate the relationship. For example, it would allow a client to
+            remove an `author` from an `article` without deleting the people
+            resource itself.
+          type: string
+          format: uri
+        related:
+          $ref: '#/components/schemas/link'
+      additionalProperties: true
+    link:
+      description: >-
+        A link **MUST** be represented as either: a string containing the link's
+        URL or a link object.
+      oneOf:
+        - description: A string containing the link's URL.
+          type: string
+          format: uri
+        - type: object
+          required:
+            - href
+          properties:
+            href:
+              description: A string containing the link's URL.
+              type: string
+              format: uri
+            meta:
+              $ref: '#/components/schemas/meta'
+    error:
+      type: object
+      properties:
+        id:
+          description: A unique identifier for this particular occurrence of the problem.
+          type: string
+        links:
+          $ref: '#/components/schemas/links'
+        status:
+          description: >-
+            The HTTP status code applicable to this problem, expressed as a
+            string value.
+          type: string
+        code:
+          description: 'An application-specific error code, expressed as a string value.'
+          type: string
+        title:
+          description: >-
+            A short, human-readable summary of the problem. It **SHOULD NOT**
+            change from occurrence to occurrence of the problem, except for
+            purposes of localization.
+          type: string
+        detail:
+          description: >-
+            A human-readable explanation specific to this occurrence of the
+            problem.
+          type: string
+        source:
+          type: object
+          properties:
+            pointer:
+              description: >-
+                A JSON Pointer [RFC6901] to the associated entity in the request
+                document [e.g. "/data" for a primary data object, or
+                "/data/attributes/title" for a specific attribute].
+              type: string
+            parameter:
+              description: A string indicating which query parameter caused the error.
+              type: string
+        meta:
+          $ref: '#/components/schemas/meta'
+      additionalProperties: false
+    ErrorResponse:
+      title: JSON API Schema
+      description: >-
+        This is a schema for responses in the JSON API format. For more, see
+        http://jsonapi.org
+      type: object
+      required:
+        - errors
+      properties:
+        errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/error'
+          uniqueItems: true
+        meta:
+          $ref: '#/components/schemas/meta'
+        links:
+          $ref: '#/components/schemas/links'
+      additionalProperties: false
+    EmptyGetRequest:
+      title: Empty Get Request
+      type: object
+    EmptyGetResponse:
+      title: Empty Get Response
+      type: object
     GetUsersResponse:
       description: ''
       type: object
@@ -22,24 +132,103 @@ components:
                 minLength: 1
       required:
         - users
+    CreateUserResponse:
+      title: Empty Schema
+      type: object
+    CreateUserRequest:
+      title: Create User Request
+      description: >-
+        This is a schema for creating user requests in the JSON API format. For
+        more, see http://jsonapi.org
+      type: object
+      required:
+        - firstName
+        - lastName
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
 info:
-  title: Local API
-  description: 'https://github.com/tsmithsoftware/local-api-development/'
-  version: '1'
+  title: Site API
+  description: Some Description
+  version: v1.0.0
 paths:
   /:
     get:
       operationId: root
-      summary: Root
+      summary: Root Endpoint
       description: Used by the API testing framework to ensure live
-      requestBody: {}
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmptyGetRequest'
+        description: An empty request
       parameters: []
-      responses: {}
+      responses:
+        '204':
+          description: An empty response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EmptyGetRequest'
+        '500':
+          description: An error message indicating a problem with the dockerised server
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
   /getUsers:
     get:
       operationId: getUsers
-      summary: Get all users in application
-      description: Returns all user details currently stored in the application
-      requestBody: {}
+      summary: Get User List
+      description: Obtain a user list from the application
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EmptyGetRequest'
+        description: An empty request
       parameters: []
-      responses: {}
+      responses:
+        '200':
+          description: A list of users
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GetUsersResponse'
+        '500':
+          description: An error message indicating a problem with the dockerised server
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+  /postUser:
+    post:
+      operationId: postUser
+      summary: Create new User
+      description: Create a new user in the application with the provided information
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateUserRequest'
+        description: A PUT request with the user information
+      parameters: []
+      responses:
+        '200':
+          description: A list of users
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreateUserResponse'
+        '500':
+          description: An error message indicating a problem with the dockerised server
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+servers:
+  - url: 'https://localhost:8000/'
+    description: Dockerised server (uses test data)
