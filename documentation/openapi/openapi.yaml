@@ -133,8 +133,17 @@ components:
       required:
         - users
     CreateUserResponse:
-      title: Empty Schema
+      title: Create User Response
+      description: This is a successful response from the CreateUser API
       type: object
+      required:
+        - firstName
+        - lastName
+      properties:
+        firstName:
+          type: string
+        lastName:
+          type: string
     CreateUserRequest:
       title: Create User Request
       description: >-
@@ -150,8 +159,8 @@ components:
         lastName:
           type: string
 info:
-  title: Site API
-  description: Some Description
+  title: Users Local API
+  description: A test API used for the development of an integration testing solution
   version: v1.0.0
 paths:
   /:
@@ -217,8 +226,8 @@ paths:
         description: A PUT request with the user information
       parameters: []
       responses:
-        '200':
-          description: A list of users
+        '201':
+          description: The created user information returned as JSON
           content:
             application/json:
               schema:
