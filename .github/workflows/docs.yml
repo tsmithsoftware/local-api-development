@@ -41,7 +41,7 @@ jobs:
       uses: actions/upload-pages-artifact@v1.0.4
       with:
         # Path of the directory containing the static assets.
-        path: backend/documentation/openapi/web/
+        path: documentation/openapi/web/
     
 #    - name: Upload a Build Artifact
 #      uses: actions/upload-artifact@v3.1.1
