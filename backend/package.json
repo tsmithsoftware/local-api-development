@@ -1,12 +1,11 @@
 {
-  "name": "ControlOfWorks",
-  "description": "Backend for Control of Works",
+  "name": "LocalAPIDevelopment",
+  "description": "Backend for LocalAPIDevelopment",
   "version": "1.0.0",
   "private": true,
   "dependencies": {
     "mysql2": "^2.3.3",
     "redoc-cli": "^0.13.20",
-    "serverless-openapi": "^1.1.2",
     "serverless-v3-openapi": "^3.0.2",
 	"serverless": "^3.7.1",
     "serverless-offline": "^8.5.0"

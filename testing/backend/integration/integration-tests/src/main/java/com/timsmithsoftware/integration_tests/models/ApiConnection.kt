@@ -15,7 +15,13 @@ class ApiConnection (private val _client: HttpClient): IApiConnection {
 
     override fun call(request: IApiRequest): ApiResponse {
         val response: HttpResponse<String> = _client.send(request.request, HttpResponse.BodyHandlers.ofString())
-        return ApiResponse(response.statusCode(), JSONObject(response.body().toString()))
+        var body: JSONObject? = null
+        response.body()?.let {
+            if(it.isNotEmpty()) {
+                body = JSONObject(it)
+            }
+        }
+        return ApiResponse(response.statusCode(), body)
     }
 
     override fun waitUntilAlive(): Boolean {

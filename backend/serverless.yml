@@ -3,6 +3,7 @@ configValidationMode: off # to allow documentation generation
 frameworkVersion: ">=3 <= 3.22.0"
 provider:
   name: aws
+  stage: ${opt:stage, self:custom.defaultStage}
   runtime: nodejs14.x
   
 plugins:
@@ -13,7 +14,7 @@ functions:
   root:
     handler: lambda_funcs/root/index.handler
     events:
-      - http:
+      - httpApi:
           path: /
           method: get
           documentation:
@@ -38,7 +39,7 @@ functions:
   getUsers:
     handler: lambda_funcs/getUsers/index.handler
     events:
-      - http:
+      - httpApi:
           path: /getUsers
           method: get
           documentation:
@@ -63,7 +64,7 @@ functions:
   postUser:
     handler: lambda_funcs/postUser/index.handler
     events:
-      - http:
+      - httpApi:
           path: /postUser
           method: post
           documentation:
@@ -85,4 +86,5 @@ functions:
                 responseModels:
                   application/json: ErrorResponse
 custom:
+  defaultStage: dev
   documentation: ${file(serverless.doc.yml):documentation}
