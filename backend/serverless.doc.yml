@@ -28,19 +28,12 @@ documentation:
       contentType: application/json
       schema: documentation/models/UserList.json
 
-    - name: PutDocumentResponse
-      description: PUT Document response model (external reference example)
+    - name: CreateUserResponse
+      description: POST Document response model 
       contentType: application/json
-      schema: documentation/models/PutDocumentResponse.json
+      schema: documentation/models/CreateUserResponse.json
 
-    - name: PutDocumentRequest
-      description: PUT Document request model (inline example)
+    - name: CreateUserRequest
+      description: POST Document request model 
       contentType: application/json
-      schema:
-        $schema: http://json-schema.org/draft-04/schema#
-        properties:
-          SomeObject:
-            type: object
-            properties:
-              SomeAttribute:
-                type: string
+      schema: documentation/models/CreateUserRequest.json

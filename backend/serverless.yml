@@ -58,5 +58,29 @@ functions:
                 responseModels:
                   application/json: ErrorResponse
 
+  postUser:
+    handler: lambda_funcs/postUser/index.handler
+    events:
+      - http:
+          path: /postUser
+          method: post
+          documentation:
+            summary: Create new User
+            description: Create a new user in the application with the provided information
+            requestBody:
+              description: A PUT request with the user information
+            requestModels:
+              application/json: CreateUserRequest
+            methodResponses:
+              - statusCode: 200
+                responseBody:
+                  description: A list of users
+                responseModels:
+                  application/json: CreateUserResponse
+              - statusCode: 500
+                responseBody:
+                  description: An error message indicating a problem with the dockerised server
+                responseModels:
+                  application/json: ErrorResponse
 custom:
   documentation: ${file(serverless.doc.yml):documentation}
