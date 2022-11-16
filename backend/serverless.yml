@@ -1,4 +1,5 @@
 service: local-api-demo
+configValidationMode: off # to allow documentation generation
 frameworkVersion: ">=3 <= 3.22.0"
 provider:
   name: aws
