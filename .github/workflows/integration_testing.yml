@@ -14,9 +14,9 @@ jobs:
 
     runs-on: ubuntu-latest
     
-    defaults:
-      run:
-        working-directory: testing/backend/integration/integration-tests/
+ #   defaults:
+ #     run:
+ #       working-directory: testing/backend/integration/integration-tests/
 
     steps:
 
@@ -25,7 +25,7 @@ jobs:
       uses: actions/checkout@v3
 
     - name: Build and run the Docker image
-      run: docker-compose up -d
+      run: cd backend && docker-compose up -d
 
     # run the integration tests
     - name: Set up JDK 11
@@ -35,13 +35,13 @@ jobs:
          distribution: 'adopt'
 
     - name: Run integration tests
-      run: mvn test
+      run: cd testing/backend/integration/integration-tests && mvn test
 
     - name: Publish Surefire Integration Test Reports
       uses: ScaCap/action-surefire-report@v1
       with:
         # surefire/failsafe/junit compatible xml report paths in glob format
-        report_paths: ./target/surefire-reports/TEST-*.xml
+        report_paths: testing/backend/integration/integration-tests/target/surefire-reports/TEST-*.xml
         # fail run if there were test failures
         fail_on_test_failures: true
         # name of job in build report
@@ -49,4 +49,4 @@ jobs:
 
     # shutdown
     - name: Shutdown
-      run: docker-compose down
+      run: cd backend && docker-compose down
