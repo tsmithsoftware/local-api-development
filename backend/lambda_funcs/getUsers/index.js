@@ -1,9 +1,16 @@
-const { User, getSequelizeClient } = require('../../utils/database_connection');
-const client = getSequelizeClient();
+const { User } = require('../../utils/database_connection');
+const { StatusCodes } = require('http-status-codes');
+const { response, errorResponse } = require("../../utils/Response");
 
-exports.handler = async (event) => {
-    const users = await User.findAll({
-		attributes: ['lastName','firstName']
-	});
-    return {"users": users};
+exports.handler = async (event, context) => {
+  await User.findAll({
+  attributes: ['lastName','firstName']
+}).then(
+  users => {
+    return response(context, StatusCodes.OK, users)
+  }
+)
+.catch(error => {
+  return errorResponse(context, StatusCodes.INTERNAL_SERVER_ERROR, error)
+})
 };

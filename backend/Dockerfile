@@ -2,15 +2,11 @@ FROM node:18.8
 
 WORKDIR /app
 
-COPY serverless.yml ./
-COPY serverless.doc.yml ./
-COPY package.json ./
-COPY package-lock.json ./
+COPY . .
 
 RUN npm install
 RUN npm ci
 
-COPY . .
 
 EXPOSE 3000
 EXPOSE 3002
