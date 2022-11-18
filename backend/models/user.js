@@ -1,5 +1,3 @@
-const { sequelize } = require('../utils/database_connection')
-
 module.exports = (sequelize, type) => {
     return sequelize.define('user', {
         userId: {
