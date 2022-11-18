@@ -4,15 +4,17 @@
   "version": "1.0.0",
   "private": true,
   "dependencies": {
+    "http-status-codes": "^2.2.0",
     "mysql2": "^2.3.3",
     "redoc-cli": "^0.13.20",
-    "serverless-v3-openapi": "^3.0.2",
-	"serverless": "^3.7.1",
-    "serverless-offline": "^8.5.0"
+    "serverless": "^3.7.1",
+    "serverless-offline": "^8.5.0",
+    "serverless-v3-openapi": "^3.0.2"
   },
   "devDependencies": {
     "json-schema-generator": "^2.0.6",
     "sequelize": "^6.21.4",
+    "serverless-openapi": "^1.1.2",
     "serverless-webpack": "^5.6.1"
   },
   "scripts": {
