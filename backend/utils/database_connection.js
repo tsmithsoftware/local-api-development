@@ -1,43 +1,46 @@
-const { Sequelize } = require('sequelize');
-const UserModel = require('../models/user')
+const Sequelize = require('sequelize');
 
-  let sequelize = new Sequelize('db', 'user', 'password', {
+var sequelize = new Sequelize('db', 'user', 'password', {
     host: 'db',
     dialect: 'mysql'
+});
+
+var getSequelizeClient = new Promise((resolve, reject) => {
+  console.log("sequelize is:" + sequelize)
+sequelize.authenticate().then(() => {
+    console.log('Connection to database has been established successfully 1.');
+    resolve(sequelize)
+}).catch(err => {
+
+    sequelize = new Sequelize('db', 'user', 'password', {
+      host: 'host.docker.internal',
+      dialect: 'mysql'});
+
+      sequelize.authenticate().then(() => {
+        console.log('Connection to database has been established 2')
+        resolve(sequelize)
+      })
+      .catch(async err => {
+
+        sequelize = new Sequelize('db', 'user', 'password', {
+          host: 'localhost',
+          dialect: 'mysql'
+        })
+        
+        await sequelize.authenticate().then(() => {
+          console.log('connection to database established 3')
+          resolve(sequelize)
+        })
+        .catch(err => {
+          console.log("connection to DB could not be established")
+          reject(err)
+        })
+
+      })
   });
-  
-  let User = UserModel(sequelize, Sequelize)
+})
 
-  async function getSequelizeClient() {
-    try {
-      await sequelize.authenticate();
-      console.log('Connection has been established successfully.');
-    } catch (error) {
-      console.error('Unable to connect to the database:', error);
-      console.log("attempting to connect via docker internal host connection");
-      try {
-            sequelize = new Sequelize('db', 'user', 'password', {
-              host: 'host.docker.internal',
-              dialect: 'mysql'
-              });
-          } catch (error) {
-            console.error('Unable to connect to the database:', error);
-            console.log("attempting to connect via localhost connection");
-            sequelize = new Sequelize
-              (
-                'db',
-                'user',
-                'password',
-                {
-                  host: 'localhost',
-                  dialect: 'mysql'
-                }
-              )
-          }
-        }
-  }
-
-module.exports= {
- getSequelizeClient,
- User
- }
+module.exports = {
+  sequelize,
+  getSequelizeClient
+}
