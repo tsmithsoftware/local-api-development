@@ -12,7 +12,7 @@ exports.handler = async (event, context) => {
         attributes: ['lastName','firstName']
       }).then(
         users => {
-          return response(context, StatusCodes.OK, users)
+          return response(context, StatusCodes.OK, {users: users})
         }
       )
     })

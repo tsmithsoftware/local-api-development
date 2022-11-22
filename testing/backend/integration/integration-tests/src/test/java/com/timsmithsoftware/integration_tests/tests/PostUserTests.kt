@@ -71,7 +71,7 @@ class PostUserTests {
                     .call()
                     .toResult()
             
-            Assertions.assertEquals(result, TestResult.TRUE)
+            Assertions.assertEquals(TestResult.TRUE, result, result.resultNotes)
         } catch (e: Exception) {
             Assertions.fail(e.message)
         }

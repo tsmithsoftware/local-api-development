@@ -1,8 +1,6 @@
 package com.timsmithsoftware.integration_tests.models
 
-import org.json.JSONObject
-
-class ApiResponse(private val code: Int, private val body: JSONObject?) {
+class ApiResponse(private val code: Int, private val body: Any?) {
     override fun equals(other: Any?): Boolean {
         if (other != null) {
             if (other.javaClass == this.javaClass) {
@@ -20,5 +18,11 @@ class ApiResponse(private val code: Int, private val body: JSONObject?) {
 
     override fun toString(): String {
         return "Code: $code, Body: $body"
+    }
+
+    override fun hashCode(): Int {
+        var result = code
+        result = 31 * result + (body?.hashCode() ?: 0)
+        return result
     }
 }

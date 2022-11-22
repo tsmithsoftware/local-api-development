@@ -1,7 +1,7 @@
 package com.timsmithsoftware.integration_tests.models
 
 import com.timsmithsoftware.integration_tests.Constants
-import org.json.JSONObject
+import org.json.JSONTokener
 import org.springframework.stereotype.Service
 import java.net.ConnectException
 import java.net.HttpURLConnection
@@ -15,10 +15,10 @@ class ApiConnection (private val _client: HttpClient): IApiConnection {
 
     override fun call(request: IApiRequest): ApiResponse {
         val response: HttpResponse<String> = _client.send(request.request, HttpResponse.BodyHandlers.ofString())
-        var body: JSONObject? = null
+        var body: Any? = null
         response.body()?.let {
             if(it.isNotEmpty()) {
-                body = JSONObject(it)
+               body = JSONTokener(it).nextValue()
             }
         }
         return ApiResponse(response.statusCode(), body)
