@@ -3,8 +3,9 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:user_management/utils/widgets/animated_fab.dart';
-
+import 'package:flutter_localizations/flutter_localizations.dart';
 import 'features/list_users/presentation/list_users_page.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() {
   runApp(const MyApp());
@@ -20,7 +21,17 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      localizationsDelegates: const [
+        AppLocalizations.delegate,
+        GlobalMaterialLocalizations.delegate,
+        GlobalWidgetsLocalizations.delegate,
+        GlobalCupertinoLocalizations.delegate,
+      ],
+      supportedLocales: const [
+        Locale('en', ''),
+        Locale('es', ''),
+      ],
+      home: const MyHomePage(),
       getPages: [
         GetPage(name: ListUsersPage.id, page: () => const ListUsersPage())
       ],
@@ -29,60 +40,66 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-  final String title;
+  const MyHomePage({super.key});
 
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateMixin {
-  late Animation<double> animation;
-  late AnimationController controller;
+class _MyHomePageState extends State<MyHomePage>
+    with SingleTickerProviderStateMixin {
+
+  double currentSize = 0.0;
+  final double animateToSize = 600.0;
+  final double animateFromSize = 0.0;
 
   @override
   void initState() {
+    Future.delayed(const Duration(seconds: 2)).then((value) => setState(() {
+      currentSize = animateToSize;
+    }));
     super.initState();
-    controller = AnimationController(duration: const Duration(seconds: 5), vsync: this);
-    var screenWidth = (window.physicalSize.shortestSide / window.devicePixelRatio);
-    Tween<double> animationOne = Tween<double>(begin: 0, end: screenWidth);
-    animation = animationOne.animate(controller);
-    controller.forward();
+
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(AppLocalizations.of(context)!.helloWorld),
       ),
       body: RefreshIndicator(
         onRefresh: () async {
-          if(controller.isCompleted) {
-            controller.reverse();
-          } else {
-            controller.forward();
-          }
+          setState(() {
+            if(currentSize == animateFromSize) {
+              currentSize = animateToSize;
+            } else {
+              currentSize = animateFromSize;
+            }
+          });
         },
-        child: Center(
-          child: AnimatedContainer(
-              duration: const Duration(seconds: 5),
-          width: animation.value,
-          height: animation.value,
-          child: Image.asset('assets/logo.png')),
+        child: SingleChildScrollView(
+          physics: const AlwaysScrollableScrollPhysics(),
+            child: SizedBox(
+              height: MediaQuery.of(context).size.height,
+              width: MediaQuery.of(context).size.width,
+              child: Center(
+                child: AnimatedContainer(
+                    duration: const Duration(seconds: 5),
+                    curve: Curves.easeInOut,
+                    width: currentSize,
+                    height: currentSize,
+                    child: Image.asset('assets/logo.png')),
+              ),
+            ),
+          ),
         ),
-      ),
+     // ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => Get.toNamed(ListUsersPage.id),
         tooltip: 'Increment',
         child: const AnimatedFab(),
       ),
     );
-  }
-
-  @override
-  void dispose() {
-    controller.dispose();
-    super.dispose();
   }
 }
