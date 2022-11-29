@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:user_management/utils/widgets/animated_fab.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'features/list_users/presentation/list_users_page.dart';
+import 'features/list_users/presentation/pages/list_users_page.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() {
