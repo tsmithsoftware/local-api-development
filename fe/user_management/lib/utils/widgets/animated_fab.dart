@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:user_management/features/list_users/presentation/list_users_page.dart';
+import 'package:user_management/features/list_users/presentation/pages/list_users_page.dart';
 
 class AnimatedFab extends StatefulWidget
  {
