@@ -32,6 +32,8 @@ dependencies:
   objectbox_flutter_libs: any
   path_provider: ^2.0.11
   uuid_type: ^2.0.0
+  # to remove flutter analysis warnings for objectbox generated files
+  flat_buffers: ^2.0.5
 
 dev_dependencies:
   flutter_test:
