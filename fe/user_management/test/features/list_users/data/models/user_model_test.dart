@@ -6,7 +6,7 @@ import 'package:user_management/features/list_users/data/models/user_model.dart'
 import '../../../../fixtures/fixture_reader.dart';
 
 void main() {
-  const tUserModel = UserModel(lastName: "Doe", firstName: "John");
+  const UserModel tUserModel = UserModel(lastName: "Doe", firstName: "John", uuidString: "75c46e40-7098-11ed-9a71-a91a125af53c");
 
   group('fromJson', (){
     test('should return a valid model from JSON', (){

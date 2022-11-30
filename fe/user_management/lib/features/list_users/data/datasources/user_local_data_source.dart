@@ -10,3 +10,17 @@ abstract class UserLocalDataSource {
   ///
   Future<void> cacheUsers(UserListModel users);
 }
+
+class UserLocalDataSourceObjectBoxImpl extends UserLocalDataSource {
+  @override
+  Future<void> cacheUsers(UserListModel users) {
+    // TODO: implement cacheUsers
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<UserListModel> getUsers() {
+    // TODO: implement getUsers
+    throw UnimplementedError();
+  }
+}

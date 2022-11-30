@@ -7,10 +7,12 @@ class UserListModel extends UserListEntity {
   factory UserListModel.fromJson(Map<String, dynamic> jsonMap) {
     return UserListModel(
         users: jsonMap['users']
-            .map<UserModel>((e) =>
+            .map<UserModel>((model) =>
             UserModel(
-                lastName: e["lastName"],
-                firstName: e["firstName"])).toList() );
+                lastName: model["lastName"],
+                firstName: model["firstName"],
+              uuidString: model['uuid']
+            )).toList() );
   }
 
   Map<String, dynamic> toJson() {
