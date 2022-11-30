@@ -7,7 +7,7 @@ import '../models/user_model.dart';
 abstract class UserLocalDataSource {
   ///
   /// Gets the last cached set of users
-  /// Throws [NoLocalDataException] if no users stored
+  /// Throws [CacheException] if no users stored
   Future<UserListModel> getUsers();
   ///
   /// Caches a set of users
@@ -21,7 +21,7 @@ class UserLocalDataSourceObjectBoxImpl extends UserLocalDataSource {
   UserLocalDataSourceObjectBoxImpl({required this.box});
 
   @override
-  Future<void> cacheUsers(UserListModel users) {
+  Future<void> cacheUsers(UserListModel users) async {
     box.putMany(users.userModels);
     return Future.value();
   }
