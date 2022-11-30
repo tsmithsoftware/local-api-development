@@ -1,4 +1,10 @@
 
+import 'dart:convert';
+import 'dart:io';
+
+import 'package:user_management/core/constants.dart';
+
+import '../../../../core/error/exception.dart';
 import '../models/user_list_model.dart';
 import 'package:http/http.dart' as http;
 
@@ -15,8 +21,14 @@ class UserRemoteDataSourceImpl extends UserRemoteDataSource {
   UserRemoteDataSourceImpl({required this.client});
 
   @override
-  Future<UserListModel> getUsers() {
-    // TODO: implement getUsers
-    throw UnimplementedError();
+  Future<UserListModel> getUsers() async {
+    Uri endpoint = Uri.parse(getUsersUrl);
+    final response = await client.get(endpoint, headers: { HttpHeaders.contentTypeHeader: ContentType.json.toString() });
+
+    if (response.statusCode == 200) {
+      return UserListModel.fromJson(json.decode(response.body));
+    } else {
+      throw ServerException();
+    }
   }
 }
