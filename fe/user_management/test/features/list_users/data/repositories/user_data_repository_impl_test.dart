@@ -32,6 +32,26 @@ void main() {
     );
   });
 
+  void runTestsOnline(Function body) {
+    group('device is online', () {
+      setUp(() {
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
+      });
+
+      body();
+    });
+  }
+
+  void runTestsOffline(Function body) {
+    group('device is offline', () {
+      setUp(() {
+        when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
+      });
+
+      body();
+    });
+  }
+
   group('getUsers', (){
     const user = UserModel(lastName: "Tom", firstName: "Tom");
     const userList = UserListModel(users: [user]);
@@ -44,10 +64,7 @@ void main() {
       verify(mockNetworkInfo.isConnected);
     });
 
-    group('device is online', (){
-      setUp(() {
-        when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
-      });
+    runTestsOnline(() {
 
       test(
         'should return remote data when the call to remote data source is successful',
@@ -93,11 +110,9 @@ void main() {
       );
     });
 
-    group('device is offline', ()
+    runTestsOffline(()
     {
-      setUp(() {
-        when(mockNetworkInfo.isConnected).thenAnswer((_) async => false);
-      });
+
       test(
         'should return last locally cached data when the cached data is present',
             () async {
@@ -110,6 +125,21 @@ void main() {
           verifyZeroInteractions(mockRemoteDataSource);
           verify(mockLocalDataSource.getUsers());
           expect(result, equals(const Right(userList)));
+        },
+      );
+
+      test(
+        'should return CacheFailure when there is no cached data present',
+            () async {
+          // arrange
+          when(mockLocalDataSource.getUsers())
+              .thenThrow(CacheException());
+          // act
+          final result = await repository.getUsers();
+          // assert
+          verifyZeroInteractions(mockRemoteDataSource);
+          verify(mockLocalDataSource.getUsers());
+          expect(result, equals(Left(CacheFailure())));
         },
       );
     });

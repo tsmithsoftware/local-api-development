@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:user_management/core/error/exception.dart';
 import 'package:user_management/core/error/failure.dart';
 import 'package:user_management/core/platform/network_info.dart';
 import 'package:user_management/features/list_users/data/datasources/user_local_data_source.dart';
@@ -24,12 +25,16 @@ class UserDataRepositoryImpl extends UserDataRepository {
         final result = await remoteDataSource.getUsers();
         localDataSource.cacheUsers(result);
         return(Right(result));
-      } catch (e) {
+      } on ServerException {
         return Left(ServerFailure());
       }
     } else {
-      final localUsers = await localDataSource.getUsers();
-      return Right(localUsers);
+      try {
+        final localUsers = await localDataSource.getUsers();
+        return Right(localUsers);
+      } on CacheException {
+        return Left(CacheFailure());
+      }
     }
   }
 }
