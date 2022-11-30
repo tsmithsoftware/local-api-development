@@ -11,23 +11,26 @@ import 'package:user_management/features/list_users/domain/usecases/get_user_dat
 @GenerateNiceMocks([MockSpec<UserDataRepository>()])
 import 'get_user_data_usecase_test.mocks.dart';
 
-  void main() {
-    late MockUserDataRepository mockRepo;
-    late GetUserDataUseCase getUserDataUseCase;
+void main() {
+  late MockUserDataRepository mockRepo;
+  late GetUserDataUseCase getUserDataUseCase;
 
-    setUp(() {
-      mockRepo = MockUserDataRepository();
-      getUserDataUseCase = GetUserDataUseCase(repository: mockRepo);
-    });
+  setUp(() {
+    mockRepo = MockUserDataRepository();
+    getUserDataUseCase = GetUserDataUseCase(repository: mockRepo);
+  });
 
-    const user = UserEntity(lastName: "lastName", firstName: "firstName");
-    const userList = UserListEntity([user]);
+  const user = UserEntity(
+      lastName: "lastName",
+      firstName: "firstName",
+      uuidString: "47c3f3ad-16dc-445f-bcc0-086c046c5d84");
+  const userList = UserListEntity([user]);
 
-    test('should get users from the repository', () async {
-      when(mockRepo.getUsers()).thenAnswer((_) async => const Right(userList));
-      final result = await getUserDataUseCase(NoParams());
-      expect(result, const Right(userList));
-      verify(mockRepo.getUsers());
-      verifyNoMoreInteractions(mockRepo);
-    });
-  }
+  test('should get users from the repository', () async {
+    when(mockRepo.getUsers()).thenAnswer((_) async => const Right(userList));
+    final result = await getUserDataUseCase(NoParams());
+    expect(result, const Right(userList));
+    verify(mockRepo.getUsers());
+    verifyNoMoreInteractions(mockRepo);
+  });
+}

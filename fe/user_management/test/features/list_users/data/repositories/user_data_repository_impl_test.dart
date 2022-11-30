@@ -15,7 +15,6 @@ import 'user_data_repository_impl_test.mocks.dart';
 
 @GenerateMocks([UserRemoteDataSource, UserLocalDataSource, NetworkInfo])
 void main() {
-
   late UserDataRepositoryImpl repository;
   late MockUserRemoteDataSource mockRemoteDataSource;
   late MockUserLocalDataSource mockLocalDataSource;
@@ -52,23 +51,24 @@ void main() {
     });
   }
 
-  group('getUsers', (){
-    const user = UserModel(lastName: "Tom", firstName: "Tom");
+  group('getUsers', () {
+    const user = UserModel(
+        lastName: "Tom",
+        firstName: "Tom",
+        uuidString: "47c3f3ad-16dc-445f-bcc0-086c046c5d84");
     const userList = UserListModel(users: [user]);
 
     test('should check if device is online', () async {
       when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);
-      when(mockRemoteDataSource.getUsers())
-          .thenAnswer((_) async => userList);
+      when(mockRemoteDataSource.getUsers()).thenAnswer((_) async => userList);
       await repository.getUsers();
       verify(mockNetworkInfo.isConnected);
     });
 
     runTestsOnline(() {
-
       test(
         'should return remote data when the call to remote data source is successful',
-            () async {
+        () async {
           // arrange
           when(mockRemoteDataSource.getUsers())
               .thenAnswer((_) async => userList);
@@ -82,10 +82,10 @@ void main() {
 
       test(
         'should cache the data locally when the call to remote data source is successful',
-            () async {
+        () async {
           // arrange
-              when(mockRemoteDataSource.getUsers())
-                  .thenAnswer((_) async => userList);
+          when(mockRemoteDataSource.getUsers())
+              .thenAnswer((_) async => userList);
           // act
           await repository.getUsers();
           // assert
@@ -96,10 +96,9 @@ void main() {
 
       test(
         'should return server failure when the call to remote data source is unsuccessful',
-            () async {
+        () async {
           // arrange
-          when(mockRemoteDataSource.getUsers())
-              .thenThrow(ServerException());
+          when(mockRemoteDataSource.getUsers()).thenThrow(ServerException());
           // act
           final result = await repository.getUsers();
           // assert
@@ -110,12 +109,10 @@ void main() {
       );
     });
 
-    runTestsOffline(()
-    {
-
+    runTestsOffline(() {
       test(
         'should return last locally cached data when the cached data is present',
-            () async {
+        () async {
           // arrange
           when(mockLocalDataSource.getUsers())
               .thenAnswer((_) async => userList);
@@ -130,10 +127,9 @@ void main() {
 
       test(
         'should return CacheFailure when there is no cached data present',
-            () async {
+        () async {
           // arrange
-          when(mockLocalDataSource.getUsers())
-              .thenThrow(CacheException());
+          when(mockLocalDataSource.getUsers()).thenThrow(CacheException());
           // act
           final result = await repository.getUsers();
           // assert
@@ -143,6 +139,5 @@ void main() {
         },
       );
     });
-
   });
 }
