@@ -41,21 +41,24 @@ class GetUsersTests {
             val request = ApiRequest(httpRequest)
 
             val jsonString = """{
-            'users': [
-            {
-                'lastName': 'Doe',
-                'firstName': 'John'
-            },
-            {
-                'lastName': 'Smith',
-                'firstName': 'Danny'
-            },
-            {
-                'lastName': 'Smith',
-                'firstName': 'Harry'
-            }
-            ]
-        }"""
+                "users": [
+                    {
+                        "uuid": "6ba7b811-9dad-11d1-80b4-00c04fd430c8",
+                        "lastName": "Doe",
+                        "firstName": "John"
+                    },
+                    {
+                        "uuid": "f91728f0-7218-44fc-8cb6-554b33b4af8d",
+                        "lastName": "Smith",
+                        "firstName": "Danny"
+                    },
+                    {
+                        "uuid": "47c3f3ad-16dc-445f-bcc0-086c046c5d84",
+                        "lastName": "Smith",
+                        "firstName": "Harry"
+                    }
+                ]
+            }"""
 
             val expectedApiResponse = ApiResponse(HttpURLConnection.HTTP_OK, JSONObject(jsonString))
 
