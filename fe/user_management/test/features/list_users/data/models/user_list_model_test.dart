@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:user_management/features/list_users/data/models/user_list_model.dart';
 import 'package:user_management/features/list_users/data/models/user_model.dart';
-import 'package:uuid_type/uuid_type.dart';
 
 import '../../../../fixtures/fixture_reader.dart';
 
