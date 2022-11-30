@@ -34,14 +34,16 @@ dependencies:
   uuid_type: ^2.0.0
   # to remove flutter analysis warnings for objectbox generated files
   flat_buffers: ^2.0.5
+  bloc: ^8.1.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   mockito: ^5.3.2
   flutter_lints: ^2.0.0
-  build_runner: ^2.3.2
+  build_runner:
   objectbox_generator: ^1.6.2
+  bloc_test:
 
 flutter:
 

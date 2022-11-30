@@ -9,5 +9,5 @@ class UserEntity extends Equatable {
       {required this.lastName, required this.firstName, required this.uuidString});
 
   @override
-  List<Object?> get props => [lastName, firstName];
+  List<Object?> get props => [uuidString, lastName, firstName];
 }
