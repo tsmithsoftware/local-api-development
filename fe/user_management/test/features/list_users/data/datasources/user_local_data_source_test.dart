@@ -56,5 +56,28 @@ void main() {
       await sut.cacheUsers(expectedUserListModel);
       verify(box.putMany(listUsers));
     });
+
+    test('two users with the same name but different uuids will be unique', () async {
+      const userList = [
+        UserModel(
+          uuidString: "75c46e40-7098-11ed-9a71-a91a125af53c",
+          firstName: "John",
+          lastName: "Doe"),
+      UserModel(
+          uuidString: "f91728f0-7218-44fc-8cb6-554b33b4af8d",
+          firstName: "John",
+          lastName: "Doe")
+      ];
+
+      UserListModel userListModel = const UserListModel(userModels: userList);
+
+      when(box.getAll()).thenReturn(userList);
+      when(box.putMany(any)).thenReturn([1, 2]);
+
+      await sut.cacheUsers(userListModel);
+      verify(box.putMany(userList));
+      UserListModel result = await sut.getUsers();
+      expect(result, equals(userListModel));
+    });
   });
 }
