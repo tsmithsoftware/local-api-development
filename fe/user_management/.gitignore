@@ -45,3 +45,6 @@ app.*.map.json
 
 #Flutter test --coverage will place the lcov.info result file here
 /coverage/
+
+# ObjectBox supporting code
+/lib/objectbox.g.dart
