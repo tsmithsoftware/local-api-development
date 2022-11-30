@@ -56,7 +56,7 @@ void main() {
         lastName: "Tom",
         firstName: "Tom",
         uuidString: "47c3f3ad-16dc-445f-bcc0-086c046c5d84");
-    const userList = UserListModel(users: [user]);
+    const userList = UserListModel(userModels: [user]);
 
     test('should check if device is online', () async {
       when(mockNetworkInfo.isConnected).thenAnswer((_) async => true);

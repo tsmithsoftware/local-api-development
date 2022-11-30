@@ -1,4 +1,8 @@
+import 'package:objectbox/objectbox.dart';
+import 'package:user_management/core/error/exception.dart';
 import 'package:user_management/features/list_users/data/models/user_list_model.dart';
+
+import '../models/user_model.dart';
 
 abstract class UserLocalDataSource {
   ///
@@ -12,15 +16,23 @@ abstract class UserLocalDataSource {
 }
 
 class UserLocalDataSourceObjectBoxImpl extends UserLocalDataSource {
+  final Box<UserModel> box;
+
+  UserLocalDataSourceObjectBoxImpl({required this.box});
+
   @override
   Future<void> cacheUsers(UserListModel users) {
-    // TODO: implement cacheUsers
-    throw UnimplementedError();
+    box.putMany(users.userModels);
+    return Future.value();
   }
 
   @override
-  Future<UserListModel> getUsers() {
-    // TODO: implement getUsers
-    throw UnimplementedError();
+  Future<UserListModel> getUsers() async {
+    List<UserModel> users = box.getAll();
+    if(users.isNotEmpty) {
+      return UserListModel(userModels: users);
+    } else {
+      throw CacheException();
+    }
   }
 }

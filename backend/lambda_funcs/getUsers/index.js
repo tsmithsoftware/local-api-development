@@ -9,7 +9,7 @@ exports.handler = async (event, context) => {
     .then(async (client) => {
       let User = UserModel(client, Sequelize)
       await User.findAll({
-        attributes: ['lastName','firstName']
+        attributes: ['uuid','lastName','firstName']
       }).then(
         users => {
           return response(context, StatusCodes.OK, {users: users})

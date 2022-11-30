@@ -11,11 +11,12 @@ exports.handler = async (event, context) => {
 		let User = UserModel(client, Sequelize)
 		await User.create(
 		{
+			uuid: parsedEvent.uuid,
 			lastName: parsedEvent.lastName,
 			firstName: parsedEvent.firstName
 		}) 
 		.then( user => {
-			return response(context, StatusCodes.CREATED, JSON.stringify( {lastName: user.lastName, firstName: user.firstName} ))
+			return response(context, StatusCodes.CREATED, JSON.stringify( {uuid: user.uuid, lastName: user.lastName, firstName: user.firstName} ))
 		}
 		)
 		.catch(error => {

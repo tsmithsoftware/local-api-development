@@ -14,7 +14,7 @@ void main() {
     const UserModel(lastName: "Smith", firstName: "Harry", uuidString: "47c3f3ad-16dc-445f-bcc0-086c046c5d84")
   ];
 
-  final tUserListModel = UserListModel(users: users);
+  final tUserListModel = UserListModel(userModels: users);
 
   group('fromJson', (){
     test('should return a valid model from JSON', () async {
