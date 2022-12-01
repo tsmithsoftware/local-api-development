@@ -65,5 +65,33 @@ void main() {
     ]
     );
 
+    blocTest(
+        'should get data from concrete use case',
+        build: (){
+          when(mockGetUserDataUseCase.call(any))
+              .thenAnswer((_) async => Right(mockUserListEntity));
+          return bloc;
+        },
+        act: (bloc) => bloc.add(const GetUsersEvent()),
+        expect: () => [GetUsersEmpty(), GetUsersLoading(), GetUsersLoaded(users: mockUserListEntity)],
+        verify: (bloc) async {
+          verify(mockGetUserDataUseCase(any));
+        }
+    );
+
+    blocTest('should emit GetUsersEmpty, GetUsersLoading, GetUsersError'
+        'with correct message when loading fails with CacheFailure',
+        build: () {
+          when(mockGetUserDataUseCase.call(any))
+              .thenAnswer((_) async => Left(CacheFailure()));
+          return bloc;
+        },
+        act: (bloc) => bloc.add(const GetUsersEvent()),
+        expect: () => [
+          GetUsersEmpty(),
+          GetUsersLoading(),
+          GetUsersError(message: cacheFailureMessage)
+        ]
+    );
   });
 }
