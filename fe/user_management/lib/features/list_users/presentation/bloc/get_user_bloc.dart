@@ -2,6 +2,7 @@ import 'package:user_management/features/list_users/presentation/bloc/get_user_s
 import 'package:bloc/bloc.dart';
 
 import '../../../../core/constants.dart';
+import '../../../../core/error/failure.dart';
 import '../../../../core/usecase.dart';
 import '../../domain/usecases/get_user_data_usecase.dart';
 import 'get_user_event.dart';
@@ -17,8 +18,18 @@ class GetUserBloc extends Bloc<GetUsersEvent, GetUsersState> {
     emit(GetUsersLoading());
     final result = await useCase.call(NoParams());
     result.fold(
-        (failure) => emit(GetUsersError(message: serverFailureMessage)),
-        (users) => emit(GetUsersLoaded(users: users))
-    );
+        (failure) => emit(GetUsersError(message: mapFailureToErrorMessage(failure))),
+        (users) => emit(GetUsersLoaded(users: users)));
+  }
+
+  String mapFailureToErrorMessage(Failure failure) {
+    switch(failure.runtimeType) {
+      case ServerFailure:
+        return serverFailureMessage;
+      case CacheFailure:
+        return cacheFailureMessage;
+      default:
+        return "";
+    }
   }
 }
