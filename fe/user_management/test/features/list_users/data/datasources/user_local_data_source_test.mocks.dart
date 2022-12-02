@@ -3,11 +3,16 @@
 // Do not manually edit this file.
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'dart:async' as _i4;
+import 'dart:async' as _i6;
 
 import 'package:mockito/mockito.dart' as _i1;
-import 'package:objectbox/src/native/box.dart' as _i3;
+import 'package:objectbox/src/native/box.dart' as _i5;
 import 'package:objectbox/src/native/query/query.dart' as _i2;
+import 'package:user_management/core/util/user_mapper.dart' as _i7;
+import 'package:user_management/features/list_users/data/models/user_model.dart'
+    as _i3;
+import 'package:user_management/features/list_users/data/objectbox/entities/user.dart'
+    as _i4;
 
 // ignore_for_file: type=lint
 // ignore_for_file: avoid_redundant_argument_values
@@ -31,10 +36,30 @@ class _FakeQueryBuilder_0<T> extends _i1.SmartFake
         );
 }
 
+class _FakeUserModel_1 extends _i1.SmartFake implements _i3.UserModel {
+  _FakeUserModel_1(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
+class _FakeUser_2 extends _i1.SmartFake implements _i4.User {
+  _FakeUser_2(
+    Object parent,
+    Invocation parentInvocation,
+  ) : super(
+          parent,
+          parentInvocation,
+        );
+}
+
 /// A class which mocks [Box].
 ///
 /// See the documentation for Mockito's code generation for more information.
-class MockBox<T> extends _i1.Mock implements _i3.Box<T> {
+class MockBox<T> extends _i1.Mock implements _i5.Box<T> {
   MockBox() {
     _i1.throwOnMissingStub(this);
   }
@@ -42,7 +67,7 @@ class MockBox<T> extends _i1.Mock implements _i3.Box<T> {
   @override
   int put(
     T? object, {
-    _i3.PutMode? mode = _i3.PutMode.put,
+    _i5.PutMode? mode = _i5.PutMode.put,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -53,9 +78,9 @@ class MockBox<T> extends _i1.Mock implements _i3.Box<T> {
         returnValue: 0,
       ) as int);
   @override
-  _i4.Future<int> putAsync(
+  _i6.Future<int> putAsync(
     T? object, {
-    _i3.PutMode? mode = _i3.PutMode.put,
+    _i5.PutMode? mode = _i5.PutMode.put,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -63,12 +88,12 @@ class MockBox<T> extends _i1.Mock implements _i3.Box<T> {
           [object],
           {#mode: mode},
         ),
-        returnValue: _i4.Future<int>.value(0),
-      ) as _i4.Future<int>);
+        returnValue: _i6.Future<int>.value(0),
+      ) as _i6.Future<int>);
   @override
   int putQueued(
     T? object, {
-    _i3.PutMode? mode = _i3.PutMode.put,
+    _i5.PutMode? mode = _i5.PutMode.put,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -81,7 +106,7 @@ class MockBox<T> extends _i1.Mock implements _i3.Box<T> {
   @override
   List<int> putMany(
     List<T>? objects, {
-    _i3.PutMode? mode = _i3.PutMode.put,
+    _i5.PutMode? mode = _i5.PutMode.put,
   }) =>
       (super.noSuchMethod(
         Invocation.method(
@@ -188,4 +213,42 @@ class MockBox<T> extends _i1.Mock implements _i3.Box<T> {
         ),
         returnValue: 0,
       ) as int);
+}
+
+/// A class which mocks [IUserMapper].
+///
+/// See the documentation for Mockito's code generation for more information.
+class MockIUserMapper extends _i1.Mock implements _i7.IUserMapper {
+  MockIUserMapper() {
+    _i1.throwOnMissingStub(this);
+  }
+
+  @override
+  _i3.UserModel mapUserToUserModel(_i4.User? user) => (super.noSuchMethod(
+        Invocation.method(
+          #mapUserToUserModel,
+          [user],
+        ),
+        returnValue: _FakeUserModel_1(
+          this,
+          Invocation.method(
+            #mapUserToUserModel,
+            [user],
+          ),
+        ),
+      ) as _i3.UserModel);
+  @override
+  _i4.User mapUserModelToUser(_i3.UserModel? model) => (super.noSuchMethod(
+        Invocation.method(
+          #mapUserModelToUser,
+          [model],
+        ),
+        returnValue: _FakeUser_2(
+          this,
+          Invocation.method(
+            #mapUserModelToUser,
+            [model],
+          ),
+        ),
+      ) as _i4.User);
 }
