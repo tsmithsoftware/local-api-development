@@ -13,17 +13,17 @@ class ListUsersPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    sl<GetUserBloc>().add(const GetUsersEvent());
     return BlocProvider.value(
       value: sl<GetUserBloc>(),
       child: BlocBuilder<GetUserBloc, GetUsersState>(
         builder: (context, state) {
           if(state is GetUsersEmpty) {
+            BlocProvider.of<GetUserBloc>(context).add(const GetUsersEvent());
             return const Text("GetUsrs Empty");
           } else if (state is GetUsersLoading) {
             return const Text("Loading!");
           } else if (state is GetUsersLoaded) {
-            return const Text("Loaded!");
+            return Text("Loaded! There are ${state.users.users.length} users!");
           }
           return Container();
         }
