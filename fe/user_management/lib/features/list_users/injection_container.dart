@@ -9,7 +9,6 @@ import 'package:user_management/features/list_users/presentation/bloc/get_user_b
 
 import '../../core/platform/network_info.dart';
 import '../../core/util/object_box.dart';
-import 'data/models/user_model.dart';
 import 'data/objectbox/entities/user.dart';
 import 'data/repositories/user_data_repository_impl.dart';
 import 'domain/repositories/user_data_repository.dart';
