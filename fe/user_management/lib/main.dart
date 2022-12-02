@@ -5,8 +5,11 @@ import 'package:user_management/utils/widgets/animated_fab.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'features/list_users/presentation/pages/list_users_page.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:user_management/injection_container.dart' as di;
 
-Future<void> main() async {
+void main() {
+  WidgetsFlutterBinding.ensureInitialized();
+  di.init();
   runApp(const MyApp());
 }
 

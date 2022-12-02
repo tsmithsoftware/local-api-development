@@ -1,4 +1,3 @@
-
 import 'dart:convert';
 import 'dart:io';
 
@@ -23,7 +22,8 @@ class UserRemoteDataSourceImpl extends UserRemoteDataSource {
   @override
   Future<UserListModel> getUsers() async {
     Uri endpoint = Uri.parse(getUsersUrl);
-    final response = await client.get(endpoint, headers: { HttpHeaders.contentTypeHeader: ContentType.json.toString() });
+    final response = await client.get(endpoint,
+        headers: {HttpHeaders.contentTypeHeader: ContentType.json.toString()});
 
     if (response.statusCode == 200) {
       return UserListModel.fromJson(json.decode(response.body));

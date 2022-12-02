@@ -24,8 +24,6 @@ dependencies:
   equatable: ^2.0.5
   # Functional programming thingies
   dartz: ^0.10.1
-  # Remote API
-  connectivity_plus: ^3.0.2
   http: ^0.13.5
   # Local cache
   objectbox: ^1.6.2
@@ -35,6 +33,8 @@ dependencies:
   # to remove flutter analysis warnings for objectbox generated files
   flat_buffers: ^2.0.5
   bloc: ^8.1.0
+  # connection check
+  connectivity_plus: ^3.0.2
 
 dev_dependencies:
   flutter_test:
