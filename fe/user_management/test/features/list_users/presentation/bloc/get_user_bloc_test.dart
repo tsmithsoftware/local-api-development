@@ -54,9 +54,9 @@ void main() {
     blocTest(
         'should emit GetUsersEmpty, GetUsersLoading, GetUsersError when loading fails',
         build: () {
-          final serverFailure = const ServerFailure(serverFailureMessage);
+          const serverFailure = ServerFailure(serverFailureMessage);
           when(mockGetUserDataUseCase.call(any))
-              .thenAnswer((_) async => Left(serverFailure));
+              .thenAnswer((_) async => const Left(serverFailure));
           return bloc;
         },
         act: (bloc) => bloc.add(const GetUsersEvent()),

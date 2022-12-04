@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
 import 'package:user_management/features/list_users/presentation/bloc/get_user_event.dart';
 import 'package:user_management/features/list_users/presentation/bloc/get_user_states.dart';
 import 'package:user_management/features/list_users/presentation/widgets/error_display_widget.dart';
@@ -32,7 +33,12 @@ class ListUsersPage extends StatelessWidget {
               } else if (state is GetUsersLoaded) {
                 return UserListDisplayWidget(users: state.users.users);
               } else if (state is GetUsersError) {
-                return ErrorDisplayWidget(state.message);
+                return ErrorDisplayWidget(state.message, onWidgetRetry: () {
+                  getUsers(context);
+                  Get.toNamed(ListUsersPage.id);
+                }, onWidgetDismissed: () {
+                  Get.back();
+                });
               } else {
                 return Container();
               }

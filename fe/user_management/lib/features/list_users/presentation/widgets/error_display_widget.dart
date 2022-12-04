@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 
 class ErrorDisplayWidget extends StatelessWidget {
   final String _message;
-  const ErrorDisplayWidget(this._message, {super.key});
+  final Function onWidgetRetry;
+  final Function onWidgetDismissed;
+  const ErrorDisplayWidget(this._message,
+      {super.key,
+      required this.onWidgetRetry,
+      required this.onWidgetDismissed});
 
   @override
   Widget build(BuildContext context) {
@@ -21,9 +25,12 @@ class ErrorDisplayWidget extends StatelessWidget {
                     Text(_message),
                   ],
                 ),
-                MaterialButton(onPressed: (){
-                  Get.back();
-                }, child: const Text("Go Back"))
+                MaterialButton(
+                    onPressed: () => onWidgetRetry(),
+                    child: const Text("Retry")),
+                MaterialButton(
+                    onPressed: () => onWidgetDismissed(),
+                    child: const Text("Cancel"))
               ],
             ),
           ),
