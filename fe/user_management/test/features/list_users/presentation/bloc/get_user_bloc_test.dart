@@ -39,9 +39,9 @@ void main() {
     blocTest(
       'emits GetUsersEmpty, GetUsersLoading, GetUsersLoaded() when GetUsersEvent is added',
       build: () {
-      when(mockGetUserDataUseCase.call(any))
-          .thenAnswer((_) async => Right(mockUserListEntity));
-      return bloc;
+        when(mockGetUserDataUseCase.call(any))
+            .thenAnswer((_) async => Right(mockUserListEntity));
+        return bloc;
       },
       act: (bloc) => bloc.add(const GetUsersEvent()),
       expect: () => [
@@ -51,47 +51,51 @@ void main() {
       ],
     );
 
-    blocTest('should emit GetUsersEmpty, GetUsersLoading, GetUsersError when loading fails',
-    build: () {
-      when(mockGetUserDataUseCase.call(any))
-          .thenAnswer((_) async => Left(ServerFailure()));
-      return bloc;
-    },
-    act: (bloc) => bloc.add(const GetUsersEvent()),
-    expect: () => [
-      GetUsersEmpty(),
-      GetUsersLoading(),
-      GetUsersError(message: serverFailureMessage)
-    ]
-    );
-
     blocTest(
-        'should get data from concrete use case',
-        build: (){
+        'should emit GetUsersEmpty, GetUsersLoading, GetUsersError when loading fails',
+        build: () {
+          final serverFailure = const ServerFailure(serverFailureMessage);
+          when(mockGetUserDataUseCase.call(any))
+              .thenAnswer((_) async => Left(serverFailure));
+          return bloc;
+        },
+        act: (bloc) => bloc.add(const GetUsersEvent()),
+        expect: () => [
+              GetUsersEmpty(),
+              GetUsersLoading(),
+              GetUsersError(message: serverFailureMessage)
+            ]);
+
+    blocTest('should get data from concrete use case',
+        build: () {
           when(mockGetUserDataUseCase.call(any))
               .thenAnswer((_) async => Right(mockUserListEntity));
           return bloc;
         },
         act: (bloc) => bloc.add(const GetUsersEvent()),
-        expect: () => [GetUsersEmpty(), GetUsersLoading(), GetUsersLoaded(users: mockUserListEntity)],
+        expect: () => [
+              GetUsersEmpty(),
+              GetUsersLoading(),
+              GetUsersLoaded(users: mockUserListEntity)
+            ],
         verify: (bloc) async {
           verify(mockGetUserDataUseCase(any));
-        }
-    );
+        });
 
-    blocTest('should emit GetUsersEmpty, GetUsersLoading, GetUsersError'
+    blocTest(
+        'should emit GetUsersEmpty, GetUsersLoading, GetUsersError'
         'with correct message when loading fails with CacheFailure',
         build: () {
+          CacheFailure failure = const CacheFailure(cacheFailureMessage);
           when(mockGetUserDataUseCase.call(any))
-              .thenAnswer((_) async => Left(CacheFailure()));
+              .thenAnswer((_) async => Left(failure));
           return bloc;
         },
         act: (bloc) => bloc.add(const GetUsersEvent()),
         expect: () => [
-          GetUsersEmpty(),
-          GetUsersLoading(),
-          GetUsersError(message: cacheFailureMessage)
-        ]
-    );
+              GetUsersEmpty(),
+              GetUsersLoading(),
+              GetUsersError(message: cacheFailureMessage)
+            ]);
   });
 }

@@ -18,18 +18,7 @@ class GetUserBloc extends Bloc<GetUsersEvent, GetUsersState> {
     emit(GetUsersLoading());
     final result = await useCase.call(NoParams());
     result.fold(
-        (failure) => emit(GetUsersError(message: mapFailureToErrorMessage(failure))),
+        (failure) => emit(GetUsersError(message: failure.message)),
         (users) => emit(GetUsersLoaded(users: users)));
-  }
-
-  String mapFailureToErrorMessage(Failure failure) {
-    switch(failure.runtimeType) {
-      case ServerFailure:
-        return serverFailureMessage;
-      case CacheFailure:
-        return cacheFailureMessage;
-      default:
-        return "";
-    }
   }
 }

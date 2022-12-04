@@ -1,4 +1,5 @@
 import 'package:objectbox/objectbox.dart';
+import 'package:user_management/core/constants.dart';
 import 'package:user_management/core/error/exception.dart';
 import 'package:user_management/features/list_users/data/models/user_list_model.dart';
 
@@ -43,7 +44,7 @@ class UserLocalDataSourceObjectBoxImpl extends UserLocalDataSource {
     if (userModels.isNotEmpty) {
       return UserListModel(userModels: userModels);
     } else {
-      throw CacheException();
+      throw CacheException(cacheFailureMessage);
     }
   }
 }
