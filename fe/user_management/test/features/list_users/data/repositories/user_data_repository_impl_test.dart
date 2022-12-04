@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mockito/annotations.dart';
 import 'package:mockito/mockito.dart';
+import 'package:user_management/core/constants.dart';
 import 'package:user_management/core/error/exception.dart';
 import 'package:user_management/core/error/failure.dart';
 import 'package:user_management/core/platform/network_info.dart';
@@ -97,14 +98,16 @@ void main() {
       test(
         'should return server failure when the call to remote data source is unsuccessful',
         () async {
+          ServerException exception = ServerException(serverFailureMessage);
+          ServerFailure failure = const ServerFailure(serverFailureMessage);
           // arrange
-          when(mockRemoteDataSource.getUsers()).thenThrow(ServerException());
+          when(mockRemoteDataSource.getUsers()).thenThrow(exception);
           // act
           final result = await repository.getUsers();
           // assert
           verify(mockRemoteDataSource.getUsers());
           verifyZeroInteractions(mockLocalDataSource);
-          expect(result, equals(Left(ServerFailure())));
+          expect(result, equals(Left(failure)));
         },
       );
     });
@@ -128,14 +131,16 @@ void main() {
       test(
         'should return CacheFailure when there is no cached data present',
         () async {
+          CacheException cacheException = CacheException(cacheFailureMessage);
+          CacheFailure cacheFailure = const CacheFailure(cacheFailureMessage);
           // arrange
-          when(mockLocalDataSource.getUsers()).thenThrow(CacheException());
+          when(mockLocalDataSource.getUsers()).thenThrow(cacheException);
           // act
           final result = await repository.getUsers();
           // assert
           verifyZeroInteractions(mockRemoteDataSource);
           verify(mockLocalDataSource.getUsers());
-          expect(result, equals(Left(CacheFailure())));
+          expect(result, equals(Left(cacheFailure)));
         },
       );
     });

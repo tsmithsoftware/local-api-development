@@ -1,11 +1,15 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:user_management/utils/widgets/animated_fab.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'features/list_users/presentation/bloc/get_user_bloc.dart';
 import 'features/list_users/presentation/pages/list_users_page.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:user_management/injection_container.dart' as di;
+
+import 'injection_container.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,25 +22,28 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GetMaterialApp(
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
+    return BlocProvider(
+      create: (_) => sl<GetUserBloc>(),
+      child: GetMaterialApp(
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        localizationsDelegates: const [
+          AppLocalizations.delegate,
+          GlobalMaterialLocalizations.delegate,
+          GlobalWidgetsLocalizations.delegate,
+          GlobalCupertinoLocalizations.delegate,
+        ],
+        supportedLocales: const [
+          Locale('en', ''),
+          Locale('es', ''),
+        ],
+        home: const MyHomePage(),
+        getPages: [
+          GetPage(name: ListUsersPage.id, page: () => const ListUsersPage()),
+        ],
       ),
-      localizationsDelegates: const [
-        AppLocalizations.delegate,
-        GlobalMaterialLocalizations.delegate,
-        GlobalWidgetsLocalizations.delegate,
-        GlobalCupertinoLocalizations.delegate,
-      ],
-      supportedLocales: const [
-        Locale('en', ''),
-        Locale('es', ''),
-      ],
-      home: const MyHomePage(),
-      getPages: [
-        GetPage(name: ListUsersPage.id, page: () => const ListUsersPage())
-      ],
     );
   }
 }

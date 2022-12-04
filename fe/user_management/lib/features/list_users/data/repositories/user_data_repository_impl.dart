@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:user_management/core/constants.dart';
 import 'package:user_management/core/error/exception.dart';
 import 'package:user_management/core/error/failure.dart';
 import 'package:user_management/core/platform/network_info.dart';
@@ -20,20 +21,28 @@ class UserDataRepositoryImpl extends UserDataRepository {
 
   @override
   Future<Either<Failure, UserListEntity>> getUsers() async {
-    if(await networkInfo.isConnected) {
+    if (await networkInfo.isConnected) {
       try {
-        final result = await remoteDataSource.getUsers();
+        final result = await remoteDataSource
+            .getUsers()
+            .timeout(
+            const Duration(seconds: 15), onTimeout: () {
+              throw UTimeoutException(timeoutMessage);
+        }
+        );
         localDataSource.cacheUsers(result);
-        return(Right(result));
-      } on ServerException {
-        return Left(ServerFailure());
+        return (Right(result));
+      } on ServerException catch(e){
+        return Left(ServerFailure(e.message));
+      } on UTimeoutException {
+        return const Left(UTimeoutFailure(timeoutMessage));
       }
     } else {
       try {
         final localUsers = await localDataSource.getUsers();
         return Right(localUsers);
       } on CacheException {
-        return Left(CacheFailure());
+        return const Left(CacheFailure(cacheFailureMessage));
       }
     }
   }
