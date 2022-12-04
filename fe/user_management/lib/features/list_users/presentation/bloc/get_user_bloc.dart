@@ -1,8 +1,6 @@
 import 'package:user_management/features/list_users/presentation/bloc/get_user_states.dart';
 import 'package:bloc/bloc.dart';
 
-import '../../../../core/constants.dart';
-import '../../../../core/error/failure.dart';
 import '../../../../core/usecase.dart';
 import '../../domain/usecases/get_user_data_usecase.dart';
 import 'get_user_event.dart';
