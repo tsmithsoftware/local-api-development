@@ -4,8 +4,9 @@ name: Lambda Unit Tests
 on: 
    workflow_dispatch:
    push:
-      paths:
-        - backend/lambda_funcs/**
+     # removing paths until ready to merge - cannot run otherwise (non-master branch)
+     # paths:
+     #   - backend/lambda_funcs/**
    pull_request:
 
 jobs:
