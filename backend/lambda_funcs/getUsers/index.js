@@ -1,22 +1,14 @@
 const { StatusCodes } = require('http-status-codes');
 const { response, errorResponse } = require("../../utils/response");
-const { getSequelizeClient } = require('../../utils/database_connection');
-const { Sequelize, DataTypes } = require('sequelize');
-const UserModel = require('../../models/user')
+const { getSequelizeClient } = require('../../utils/connection_service');
 
 exports.handler = async (event, context) => {
-  await getSequelizeClient
-    .then(async (client) => {
-      let User = UserModel(client, Sequelize)
-      await User.findAll({
-        attributes: ['uuid','lastName','firstName']
-      }).then(
-        users => {
-          return response(context, StatusCodes.OK, {users: users})
-        }
-      )
-    })
-    .catch(error => {
-      return errorResponse(context, StatusCodes.INTERNAL_SERVER_ERROR, error)
-    })
+  const UserDAO = require('../daos/UserDAO');
+  await UserDAO.getOneUser().then((user) => {
+    return response(context, StatusCodes.OK, JSON.stringify(user))
+  }).catch(
+    (exception) => {
+      return errorResponse(context, StatusCodes.INTERNAL_SERVER_ERROR, exception);
+    }
+  );
 };

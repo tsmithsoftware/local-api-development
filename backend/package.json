@@ -18,12 +18,15 @@
     "json-schema-generator": "^2.0.6",
     "lambda-tester": "^4.0.1",
     "sequelize": "^6.21.4",
+    "sequelize-mock": "^0.10.2",
     "serverless-openapi": "^1.1.2",
     "serverless-webpack": "^5.6.1"
   },
   "scripts": {
     "dev": "node --inspect $(npm bin)/sls offline start",
     "docker": "node $(npm bin)/sls offline --help",
-    "postgresDb": "sudo docker-compose up"
+    "postgresDb": "sudo docker-compose up",
+    "test": "jest",
+    "test:coverage": "jest --coverage"
   }
 }

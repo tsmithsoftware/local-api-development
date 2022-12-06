@@ -1,4 +1,4 @@
-import lambdaTester from 'lambda-tester';
+import lambdaTester from 'lambda-tester'
 import { handler } from '../root'
 
 test('root returns 204 code if available', async () => {

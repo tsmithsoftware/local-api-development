@@ -1,12 +1,12 @@
 const { StatusCodes } = require('http-status-codes');
 const { response, errorResponse } = require("../../utils/response");
-const { getSequelizeClient } = require('../../utils/database_connection');
-const { Sequelize, DataTypes } = require('sequelize');
+const ConnectionService = require('../../utils/connection_service');
 const UserModel = require('../../models/user')
 
 exports.handler = async (event, context) => {
-  await getSequelizeClient
-    .then(async (client) => {
+	const connectionService = new ConnectionService();
+	await connectionService.getSequelizeClient()
+	.then(async (client) => {
 		const parsedEvent = JSON.parse(event.body)
 		let User = UserModel(client, Sequelize)
 		await User.create(
