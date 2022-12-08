@@ -14,6 +14,21 @@ services:
       - '3306'
     volumes:
       - "./sql_scripts/init.sql:/docker-entrypoint-initdb.d/init.sql"
+      
+  reporting_db:
+    image: mysql:5.7
+    restart: always
+    environment:
+      MYSQL_DATABASE: 'db'
+      MYSQL_USER: 'user'
+      MYSQL_PASSWORD: 'password'
+      MYSQL_ROOT_PASSWORD: 'root_password'
+    ports:
+      - '3305:3306'
+    expose:
+      - '3305'
+    volumes:
+      - "./sql_scripts/init.sql:/docker-entrypoint-initdb.d/init.sql"
 
 #  zookeeper:
 #    image: quay.io/debezium/zookeeper
