@@ -1,3 +1,3 @@
 exports.handler = async (event) => {
-	return { statusCode: 204 }
-};
+  return { statusCode: 204 }
+}
