@@ -1,3 +1,3 @@
-it("stub test", () => {
-    
-  })
+it('stub test', () => {
+
+})
