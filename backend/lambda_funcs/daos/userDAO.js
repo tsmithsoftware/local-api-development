@@ -1,16 +1,17 @@
-const Sequelize = require('sequelize')
-const sequelize = new Sequelize('somedbname', 'myuser', 'mypassword', {
-  host: 'mydb.somehost.com',
-  dialect: 'mysql'
-})
-
-const User = require('../../models/user')(sequelize, Sequelize)
+const db = require('../sequelizeInstance')
+const sequelizeInstance = db.sequelizeInstance
+const Sequelize = db.Sequelize
+const User = require('../../models/user')(sequelizeInstance, Sequelize)
 
 module.exports = {
-  getOneUser: function () {
+  getAllUsers: function () {
     return new Promise((resolve, reject) => {
-      User.findOne().then(user => {
-        resolve(user)
+      User.findAll(
+        {
+          attributes: ['lastName', 'firstName', 'uuid']
+        }
+      ).then(users => {
+        resolve(users)
       }).catch(err => {
         reject(err)
       })
