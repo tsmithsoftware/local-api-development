@@ -16,5 +16,23 @@ module.exports = {
         reject(err)
       })
     })
+  },
+  postUser: function (event) {
+    return new Promise((resolve, reject) => {
+      const parsedEvent = JSON.parse(event.body)
+      User.create(
+        {
+          uuid: parsedEvent.uuid,
+          lastName: parsedEvent.lastName,
+          firstName: parsedEvent.firstName
+        })
+        .then(user => {
+          resolve(user)
+        }
+        )
+        .catch(error => {
+          reject(error)
+        })
+    })
   }
 }
